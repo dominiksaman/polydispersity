@@ -6,7 +6,7 @@ self-assembling, *polydisperse* protein from three rate constants.
 Many proteins — small heat-shock proteins (sHsps) are a classic example — do not
 form one well-defined complex but populate a whole range of oligomer sizes at
 once. This package reproduces that size distribution using the exact equilibrium
-solution of the "modified helical polymerisation" model (Baldwin *et al.*), in
+solution of the "modified helical polymerisation" model (Baldwin *et al.*, 2011), in
 which the protein grows and shrinks one monomer at a time with a built-in
 preference for **even**-sized (fully paired) oligomers.
 
