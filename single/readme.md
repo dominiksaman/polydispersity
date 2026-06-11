@@ -73,12 +73,12 @@ are optional conveniences.
 `oligomer_distribution(24, 12, 1)` — a polydisperse, even-biased distribution
 peaking near an 18-mer:
 
-![oligomer-size distribution](example_oligomer.png)
+>> example_oligomer.png
 
 The same system as a mass spectrum, with a 20 kDa monomer
 (`mass_distribution(24, 12, 1, 20_000)`):
 
-![mass distribution](example_mass.png)
+>> example_mass.png
 
 ## Requirements
 
