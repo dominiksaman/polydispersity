@@ -1,4 +1,4 @@
-# polydisperse-assembly
+# single (polydisperse-assembly for one protein)
 
 Compute the equilibrium **oligomer-size** and **mass** distributions of a single
 self-assembling, *polydisperse* protein from three rate constants.
