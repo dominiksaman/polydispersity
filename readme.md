@@ -1,6 +1,8 @@
 # polydispersity
 Repo for dealing with polydisperse proteins and their assembly.
 
+Initially, I will focus on homo-oligomers  small heat-shock proteins, using multiple different approaches: chemical kinetics, thermodynamics,and statistical mechanics.
+
 Sharing & Attribution
 
 This code is shared openly for transparency, education, and collaboration — but not as open-source in the traditional sense.
