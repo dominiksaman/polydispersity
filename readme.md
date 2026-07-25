@@ -5,5 +5,7 @@ Initially, I will focus on homo-oligomers of small heat-shock proteins, using mu
 
 Next step is sHSP co-assembly, which I wil publish once my paper is out.
 
-Then, the focus shall shift on the description of general complex protein assembly that is at global energy minimum, & not just growing with time.
+Then, I want to focus on the description of general complex protein assembly that is at global energy minimum, & not just growing with time.
+
+This is a hobby project I only have limited time to invest every now-and-then. If you want to work on this together, please reach out.
 
