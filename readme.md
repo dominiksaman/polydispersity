@@ -7,5 +7,5 @@ Next step is sHSP co-assembly, which I wil publish once my paper is out.
 
 Then, I want to focus on the description of general complex protein assembly that is at the global energy minimum and limited in maximum size.
 
-This is a hobby project I only have limited time to invest every now-and-then. If you want to work on this together, please reach out.
+This is a hobby project I only have limited time to invest time in every now-and-then. If you want to work on this together, please reach out.
 
