@@ -7,6 +7,57 @@ the specific-site thermodynamic interpretation in
 [Baldwin et al., *J. Mol. Biol.* 413 (2011)](https://baldwinlab.chem.ox.ac.uk/publications/2011%20alphaB%201.pdf),
 especially its Eqs. 5–7. The code here does not fit new experimental data.
 
+## Independent equilibrium scaffold model
+
+`equilibrium_scaffold.py` now provides a **rate-free** statistical-mechanical
+model. A candidate ring, cube, or octahedron specifies possible dimeric edges
+and C-terminal contacts. We enumerate connected occupied configurations with
+intact dimer units and at most one unpaired monomer. Configurations related
+by scaffold symmetry count as one topology. For each size `n`, the cluster
+partition sum is
+
+```
+Z_n = Σ_{connected topologies s of size n}
+      exp[n*log(z) + D_s*epsilon_d + C_s*epsilon_C - V_s*kappa]
+P_n = Z_n / Σ_m Z_m
+F_n = -k_B*T*log(Z_n)
+```
+
+Here `z` is monomer activity, `D_s` counts intact dimer contacts, `C_s`
+counts directed C-terminal contacts, and `V_s` counts fully occupied
+vertices of degree at least three. The favourable contact strengths
+`epsilon_d` and `epsilon_C`, and the illustrative crowded-vertex penalty
+`kappa`, are dimensionless energies in units of `k_B T`. **No rate or
+kinetic recurrence enters these weights.** The size dependence instead
+comes from the number of distinct structural states and their contact
+energies. In particular, the octahedral template has many more partially
+filled topologies than nearly full ones, whereas a simple 12-dimer ring has
+one connected topology per size under these assumptions.
+
+`compare_equilibrium.py` plots those topology counts and a sample equilibrium
+distribution against the kinetic result, conditioned on sizes `1..24` so the
+supports match. The example parameters (`log(z)=-1`, `epsilon_d=4`,
+`epsilon_C=0.05`, `kappa=1.1`) place the cube and octahedron modes at 18
+monomers, while the ring mode is 24. They are illustrative values, **not
+measured interface free energies or a fit to experiment**. This shows that
+polyhedral configurational multiplicity *can* select an interior size in an
+equilibrium model; it does not establish that this is the mechanism in
+αB-crystallin or quantitatively reproduce its abundance curve.
+
+The structural assumptions matter: the scaffold is a template of possible
+contacts, not a pre-existing empty protein shell. At a vertex, occupied
+monomers are assumed to be able to rearrange into a cyclic C-terminal
+contact pattern; the model does not enumerate atomic conformations or their
+entropy. The crowded-vertex penalty is a tunable shape term with no measured
+value. Only one 24-monomer parent scaffold is considered at a time, so this
+example cannot predict oligomers above 24. A physical comparison needs a
+library of 24-, 26-, 28-, and other plausible scaffolds, their relative
+shape free energies, and concentration-dependent data to constrain `z`.
+
+The rest of this document retains the exact kinetic reformulation and the
+earlier additive-contact examples as checks and contrasts. Their matching
+curves are not an independent equilibrium derivation.
+
 ## What carries over from the circular model
 
 For a fixed-size two-protein ring, arrangements have the same number of
@@ -121,12 +172,14 @@ From the repository root:
 
 ```bash
 python -m unittest single.statistical_mechanics.test_size_distribution
+python -m unittest single.statistical_mechanics.test_equilibrium_scaffold
 python -m single.statistical_mechanics.compare_models
 python -m single.statistical_mechanics.compare_geometries
+python -m single.statistical_mechanics.compare_equilibrium
 ```
 
-The plotting commands save `size_distribution_comparison.png` and
-`geometry_comparison.png` in this folder.
+The plotting commands save `size_distribution_comparison.png`,
+`geometry_comparison.png`, and `equilibrium_scaffold_comparison.png` here.
 
 ```python
 from single.statistical_mechanics import energies_from_rates, site_count_distribution
