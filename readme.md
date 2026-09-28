@@ -3,7 +3,14 @@ Repo for dealing with polydisperse proteins and their assembly.
 
 Initially, I will focus on homo-oligomers of small heat-shock proteins, using multiple different approaches: chemical kinetics (implemented), thermodynamics (coming),and statistical mechanics.
 
-Next step is sHSP co-assembly, which I wil publish once my paper is out.
+The repository now also includes a statistical-mechanics model for fixed-size,
+circular co-assembly of two protein species. A chemical-kinetics model for
+polydisperse co-assembly is a possible future step.
+
+The `combined/statistical_mechanics/` module reconstructs the fixed-size ring
+co-assembly model described in the thesis. See
+[its README](combined/statistical_mechanics/readme.md) for the equations, usage,
+and verification.
 
 Then, I want to focus on the description of general complex protein assembly that is at the global energy minimum and limited in maximum size.
 
