@@ -1,5 +1,10 @@
 # Single-protein equilibrium distributions
 
+Separate model folders:
+
+- [Statistical mechanics](statistical_mechanics/readme.md): size weights and explicit geometry/contact states.
+- [Thermodynamics](thermodynamics/readme.md): reservoir populations and formation-free-energy mass balance.
+
 `oligomer_distribution.py` evaluates the equilibrium recurrence of the modified
 helical polymerisation model. Its larger oligomers have more possible monomer
 exit sites. Paired sites dissociate at `k_off_dimer`; the single unpaired site

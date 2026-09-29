@@ -2,7 +2,7 @@
 
 ## Subsequent thermodynamic extension
 
-The [reservoir model](../single/statistical_mechanics/reservoir_readme.md) adds
+The [reservoir model](../single/thermodynamics/readme.md) adds
 an independent ideal-mixture thermodynamic calculation with supplied formation
 free energies, monomer mass balance, a small-species pool, and exact open-reservoir
 count sampling. Its bulk/surface/packing family is inspired by the Knowles group's

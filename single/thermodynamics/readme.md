@@ -3,7 +3,7 @@
 Run from the repository root:
 
 ```bash
-python -m single.statistical_mechanics.simulate_reservoir
+python -m single.thermodynamics.simulate_reservoir
 ```
 
 ![Reservoir and larger-species distributions](reservoir_thermodynamics.png)
@@ -81,7 +81,7 @@ energies changes the physical model. Under c0' = r*c0, the conversion is
 ## Use the API
 
 ```python
-from single.statistical_mechanics.reservoir_thermodynamics import (
+from single.thermodynamics.reservoir_thermodynamics import (
     GlobularModel, enrich_reservoir, globular_equilibrium, sample_reservoir,
 )
 
@@ -114,8 +114,8 @@ particle trajectory, or physical exchange kinetics.
 Change parameters or write another figure with CLI flags:
 
 ```bash
-python -m single.statistical_mechanics.simulate_reservoir --pool-subunit-fraction 0.3 --output outputs/reservoir_enriched.png
-python -m single.statistical_mechanics.simulate_reservoir --pool-subunit-fraction 0 --total 0.1 --output outputs/reservoir_low.png
+python -m single.thermodynamics.simulate_reservoir --pool-subunit-fraction 0.3 --output outputs/reservoir_enriched.png
+python -m single.thermodynamics.simulate_reservoir --pool-subunit-fraction 0 --total 0.1 --output outputs/reservoir_low.png
 ```
 
 ## Enlarging the monomer/dimer pool

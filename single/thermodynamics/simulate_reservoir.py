@@ -1,4 +1,4 @@
-"""One reservoir figure; run python -m single.statistical_mechanics.simulate_reservoir."""
+"""One reservoir figure; run python -m single.thermodynamics.simulate_reservoir."""
 
 from __future__ import annotations
 
