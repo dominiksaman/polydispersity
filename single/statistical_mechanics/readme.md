@@ -7,7 +7,61 @@ the specific-site thermodynamic interpretation in
 [Baldwin et al., *J. Mol. Biol.* 413 (2011)](https://baldwinlab.chem.ox.ac.uk/publications/2011%20alphaB%201.pdf),
 especially its Eqs. 5–7. The code here does not fit new experimental data.
 
-## Relative geometry contributions at a fixed size
+## A small-size, monomer-at-vertex geometry hypothesis
+
+The first geometry ensemble below followed the structural paper's
+**dimer-on-edge** convention. That leaves out elementary open chains and
+makes an octahedron a 24-mer. `monomer_geometry_ensemble.py` adds a separate
+exploratory convention in which **one graph vertex is one monomer**. It does
+not mix its partition weights with the dimer-on-edge calculations.
+
+The default candidate library has an open chain at every size 1–12, a closed
+ring from three monomers onward, and selected compact polyhedra from six
+onward. The six-monomer candidates are an open chain, closed ring, triangular
+prism, octahedron, and pentagonal pyramid. At eight monomers, the catalogue
+includes a cube and square antiprism; at twelve it includes an icosahedron.
+These are graph hypotheses rather than experimentally established αB-crystallin
+structures. A tetrahedron is mathematically possible with four monomers and
+a square pyramid or triangular dipyramid with five. Set
+`include_small_polyhedra=True` to include those; omitting them by default is
+the proposed **physical onset assumption**, not a geometric theorem.
+
+Graph edges here are **possible spatial adjacencies**. The model assumes
+`floor(n/2)` dimer contacts and a C-terminal path with `n-1` contacts for an
+open chain, or a C-terminal cycle with `n` contacts for a closed graph. The
+tests verify that each listed graph permits the required dimer matching and
+path/cycle counts separately. They do not establish a simultaneous atomic
+conformation or a physically correct C-terminal wiring. Extra polyhedral
+edges are not counted as extra chemical bonds.
+
+The illustrative conditional weight is
+
+```
+q(g,n) = A_g exp[epsilon_d*floor(n/2) + epsilon_C*C_g
+                 - kappa*Σ_v max(0, degree_g(v)-2)² - Δf_g]
+P(g | n) = q(g,n) / Σ_h q(h,n)
+```
+
+The `kappa` term penalizes high *potential* coordination as a shape proxy.
+This is an unmeasured assumption; the sign and magnitude of the actual
+compact-shape free energy could differ. In particular, it is a **different
+shape hypothesis** from the degree-four preference used in the dimer-on-edge
+example below; their numerical fractions should not be compared. `A_g` and
+`Δf_g` allow explicit conformer/symmetry factors and geometry offsets,
+defaulting to one and zero.
+At a fixed size, the dimer energy cancels. All closed graphs also have the
+same C-terminal contact count, so distinguishing two closed shapes needs
+shape or entropy information. The [monomer-level CSV](monomer_geometry_contributions.csv)
+contains every candidate at sizes 1–12 under three shape penalties, and the
+[figure](monomer_geometry_contributions.png) shows family shares and six-mer
+sensitivity. At `epsilon_d=epsilon_C=1` and `kappa=0.1 kBT`, the six-mer
+shares are 16.3% open chain, 44.4% ring, 24.3% triangular prism, 4.0%
+octahedron, and 10.9% pentagonal pyramid. **These numbers illustrate the
+assumptions; they are not inferred solution abundances.** Run
+`python -m single.statistical_mechanics.compare_monomer_geometries` to
+regenerate the outputs.
+
+## Relative geometry contributions in the dimer-on-edge model
 
 `geometry_ensemble.py` compares **alternative closed scaffold graphs at each
 oligomer size**. The catalogue includes single rings; tetrahedral, prismatic,

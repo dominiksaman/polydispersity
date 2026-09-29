@@ -1,0 +1,118 @@
+shape_penalty_kbt,size,geometry,family,evidence,dimer_contacts,c_terminal_contacts,excess_coordination,log_weight,share
+0.0,1,open chain (1),open chain,generic topology,0,0,0,0.0,1.0
+0.0,2,open chain (2),open chain,generic topology,1,1,0,2.0,1.0
+0.0,3,open chain (3),open chain,generic topology,1,2,0,3.0,0.2689414213699951
+0.0,3,closed ring (3),closed ring,generic topology,1,3,0,4.0,0.7310585786300049
+0.0,4,open chain (4),open chain,generic topology,2,3,0,5.0,0.2689414213699951
+0.0,4,closed ring (4),closed ring,generic topology,2,4,0,6.0,0.7310585786300049
+0.0,5,open chain (5),open chain,generic topology,2,4,0,6.0,0.2689414213699951
+0.0,5,closed ring (5),closed ring,generic topology,2,5,0,7.0,0.7310585786300049
+0.0,6,open chain (6),open chain,generic topology,3,5,0,8.0,0.08422380840089738
+0.0,6,closed ring (6),closed ring,generic topology,3,6,0,9.0,0.22894404789977563
+0.0,6,triangular prism (6 monomers),compact polyhedron,illustrative graph,3,6,6,9.0,0.22894404789977563
+0.0,6,octahedron (6 monomers),compact polyhedron,illustrative graph,3,6,24,9.0,0.22894404789977563
+0.0,6,5-gonal pyramid (6 monomers),compact polyhedron,illustrative graph,3,6,14,9.0,0.22894404789977563
+0.0,7,open chain (7),open chain,generic topology,3,6,0,9.0,0.10923177257303593
+0.0,7,closed ring (7),closed ring,generic topology,3,7,0,10.0,0.2969227424756547
+0.0,7,6-gonal pyramid (7 monomers),compact polyhedron,illustrative graph,3,7,22,10.0,0.2969227424756547
+0.0,7,5-gonal dipyramid (7 monomers),compact polyhedron,illustrative graph,3,7,38,10.0,0.2969227424756547
+0.0,8,open chain (8),open chain,generic topology,4,7,0,11.0,0.0685334768046056
+0.0,8,closed ring (8),closed ring,generic topology,4,8,0,12.0,0.18629330463907887
+0.0,8,cube (8 monomers),compact polyhedron,illustrative graph,4,8,8,12.0,0.18629330463907887
+0.0,8,7-gonal pyramid (8 monomers),compact polyhedron,illustrative graph,4,8,32,12.0,0.18629330463907887
+0.0,8,6-gonal dipyramid (8 monomers),compact polyhedron,illustrative graph,4,8,56,12.0,0.18629330463907887
+0.0,8,4-gonal antiprism (8 monomers),compact polyhedron,illustrative graph,4,8,32,12.0,0.18629330463907887
+0.0,9,open chain (9),open chain,generic topology,4,8,0,12.0,0.10923177257303593
+0.0,9,closed ring (9),closed ring,generic topology,4,9,0,13.0,0.2969227424756547
+0.0,9,8-gonal pyramid (9 monomers),compact polyhedron,illustrative graph,4,9,44,13.0,0.2969227424756547
+0.0,9,7-gonal dipyramid (9 monomers),compact polyhedron,illustrative graph,4,9,78,13.0,0.2969227424756547
+0.0,10,open chain (10),open chain,generic topology,5,9,0,14.0,0.08422380840089738
+0.0,10,closed ring (10),closed ring,generic topology,5,10,0,15.0,0.22894404789977563
+0.0,10,8-gonal dipyramid (10 monomers),compact polyhedron,illustrative graph,5,10,104,15.0,0.22894404789977563
+0.0,10,5-gonal prism (10 monomers),compact polyhedron,illustrative graph,5,10,10,15.0,0.22894404789977563
+0.0,10,5-gonal antiprism (10 monomers),compact polyhedron,illustrative graph,5,10,40,15.0,0.22894404789977563
+0.0,11,open chain (11),open chain,generic topology,5,10,0,15.0,0.2689414213699951
+0.0,11,closed ring (11),closed ring,generic topology,5,11,0,16.0,0.7310585786300049
+0.0,12,open chain (12),open chain,generic topology,6,11,0,17.0,0.08422380840089738
+0.0,12,closed ring (12),closed ring,generic topology,6,12,0,18.0,0.22894404789977563
+0.0,12,icosahedron (12 monomers),compact polyhedron,illustrative graph,6,12,108,18.0,0.22894404789977563
+0.0,12,6-gonal prism (12 monomers),compact polyhedron,illustrative graph,6,12,12,18.0,0.22894404789977563
+0.0,12,6-gonal antiprism (12 monomers),compact polyhedron,illustrative graph,6,12,48,18.0,0.22894404789977563
+0.1,1,open chain (1),open chain,generic topology,0,0,0,0.0,1.0
+0.1,2,open chain (2),open chain,generic topology,1,1,0,2.0,1.0
+0.1,3,open chain (3),open chain,generic topology,1,2,0,3.0,0.2689414213699951
+0.1,3,closed ring (3),closed ring,generic topology,1,3,0,4.0,0.7310585786300049
+0.1,4,open chain (4),open chain,generic topology,2,3,0,5.0,0.2689414213699951
+0.1,4,closed ring (4),closed ring,generic topology,2,4,0,6.0,0.7310585786300049
+0.1,5,open chain (5),open chain,generic topology,2,4,0,6.0,0.2689414213699951
+0.1,5,closed ring (5),closed ring,generic topology,2,5,0,7.0,0.7310585786300049
+0.1,6,open chain (6),open chain,generic topology,3,5,0,8.0,0.1632113854486981
+0.1,6,closed ring (6),closed ring,generic topology,3,6,0,9.0,0.44365454326282106
+0.1,6,triangular prism (6 monomers),compact polyhedron,illustrative graph,3,6,6,8.4,0.24348277574861693
+0.1,6,octahedron (6 monomers),compact polyhedron,illustrative graph,3,6,24,6.6,0.040247432132352226
+0.1,6,5-gonal pyramid (6 monomers),compact polyhedron,illustrative graph,3,6,14,7.6,0.10940386340751174
+0.1,7,open chain (7),open chain,generic topology,3,6,0,9.0,0.24508085334153987
+0.1,7,closed ring (7),closed ring,generic topology,3,7,0,10.0,0.6661988301415441
+0.1,7,6-gonal pyramid (7 monomers),compact polyhedron,illustrative graph,3,7,22,7.8,0.07381693447697507
+0.1,7,5-gonal dipyramid (7 monomers),compact polyhedron,illustrative graph,3,7,38,6.199999999999999,0.014903382039940889
+0.1,8,open chain (8),open chain,generic topology,4,7,0,11.0,0.19337337524378764
+0.1,8,closed ring (8),closed ring,generic topology,4,8,0,12.0,0.5256433320329801
+0.1,8,cube (8 monomers),compact polyhedron,illustrative graph,4,8,8,11.2,0.23618677387750356
+0.1,8,7-gonal pyramid (8 monomers),compact polyhedron,illustrative graph,4,8,32,8.8,0.021426380720196432
+0.1,8,6-gonal dipyramid (8 monomers),compact polyhedron,illustrative graph,4,8,56,6.3999999999999995,0.001943757405335946
+0.1,8,4-gonal antiprism (8 monomers),compact polyhedron,illustrative graph,4,8,32,8.8,0.021426380720196432
+0.1,9,open chain (9),open chain,generic topology,4,8,0,12.0,0.2664699142661147
+0.1,9,closed ring (9),closed ring,generic topology,4,9,0,13.0,0.7243403257806194
+0.1,9,8-gonal pyramid (9 monomers),compact polyhedron,illustrative graph,4,9,44,8.6,0.008892972385107988
+0.1,9,7-gonal dipyramid (9 monomers),compact polyhedron,illustrative graph,4,9,78,5.199999999999999,0.0002967875681579337
+0.1,10,open chain (10),open chain,generic topology,5,9,0,14.0,0.20972487443946417
+0.1,10,closed ring (10),closed ring,generic topology,5,10,0,15.0,0.5700913151646503
+0.1,10,8-gonal dipyramid (10 monomers),compact polyhedron,illustrative graph,5,10,104,4.6,1.7349294261986698e-05
+0.1,10,5-gonal prism (10 monomers),compact polyhedron,illustrative graph,5,10,10,14.0,0.20972487443946417
+0.1,10,5-gonal antiprism (10 monomers),compact polyhedron,illustrative graph,5,10,40,11.0,0.010441586662159283
+0.1,11,open chain (11),open chain,generic topology,5,10,0,15.0,0.2689414213699951
+0.1,11,closed ring (11),closed ring,generic topology,5,11,0,16.0,0.7310585786300049
+0.1,12,open chain (12),open chain,generic topology,6,11,0,17.0,0.21932523776939197
+0.1,12,closed ring (12),closed ring,generic topology,6,12,0,18.0,0.5961878083509976
+0.1,12,icosahedron (12 monomers),compact polyhedron,illustrative graph,6,12,108,7.199999999999999,1.2161935230155288e-05
+0.1,12,6-gonal prism (12 monomers),compact polyhedron,illustrative graph,6,12,12,16.8,0.17956831708794183
+0.1,12,6-gonal antiprism (12 monomers),compact polyhedron,illustrative graph,6,12,48,13.2,0.004906474856438338
+0.3,1,open chain (1),open chain,generic topology,0,0,0,0.0,1.0
+0.3,2,open chain (2),open chain,generic topology,1,1,0,2.0,1.0
+0.3,3,open chain (3),open chain,generic topology,1,2,0,3.0,0.2689414213699951
+0.3,3,closed ring (3),closed ring,generic topology,1,3,0,4.0,0.7310585786300049
+0.3,4,open chain (4),open chain,generic topology,2,3,0,5.0,0.2689414213699951
+0.3,4,closed ring (4),closed ring,generic topology,2,4,0,6.0,0.7310585786300049
+0.3,5,open chain (5),open chain,generic topology,2,4,0,6.0,0.2689414213699951
+0.3,5,closed ring (5),closed ring,generic topology,2,5,0,7.0,0.7310585786300049
+0.3,6,open chain (6),open chain,generic topology,3,5,0,8.0,0.23750698829688216
+0.3,6,closed ring (6),closed ring,generic topology,3,6,0,9.0,0.6456109304194498
+0.3,6,triangular prism (6 monomers),compact polyhedron,illustrative graph,3,6,6,7.2,0.10671876902203914
+0.3,6,octahedron (6 monomers),compact polyhedron,illustrative graph,3,6,24,1.8000000000000007,0.0004820039583840254
+0.3,6,5-gonal pyramid (6 monomers),compact polyhedron,illustrative graph,3,6,14,4.8,0.009681308303244946
+0.3,7,open chain (7),open chain,generic topology,3,6,0,9.0,0.26867202573548665
+0.3,7,closed ring (7),closed ring,generic topology,3,7,0,10.0,0.7303262853720542
+0.3,7,6-gonal pyramid (7 monomers),compact polyhedron,illustrative graph,3,7,22,3.4000000000000004,0.0009935125356012246
+0.3,7,5-gonal dipyramid (7 monomers),compact polyhedron,illustrative graph,3,7,38,-1.4000000000000004,8.176356858028578e-06
+0.3,8,open chain (8),open chain,generic topology,4,7,0,11.0,0.252191090323101
+0.3,8,closed ring (8),closed ring,generic topology,4,8,0,12.0,0.6855264581245591
+0.3,8,cube (8 monomers),compact polyhedron,illustrative graph,4,8,8,9.6,0.06218955720680013
+0.3,8,7-gonal pyramid (8 monomers),compact polyhedron,illustrative graph,4,8,32,2.4000000000000004,4.642984083982665e-05
+0.3,8,6-gonal dipyramid (8 monomers),compact polyhedron,illustrative graph,4,8,56,-4.800000000000001,3.4663860256202506e-08
+0.3,8,4-gonal antiprism (8 monomers),compact polyhedron,illustrative graph,4,8,32,2.4000000000000004,4.642984083982665e-05
+0.3,9,open chain (9),open chain,generic topology,4,8,0,12.0,0.26894105750668384
+0.3,9,closed ring (9),closed ring,generic topology,4,9,0,13.0,0.7310575895469779
+0.3,9,8-gonal pyramid (9 monomers),compact polyhedron,illustrative graph,4,9,44,-0.1999999999999993,1.3528960507169802e-06
+0.3,9,7-gonal dipyramid (9 monomers),compact polyhedron,illustrative graph,4,9,78,-10.399999999999999,5.028757735164663e-11
+0.3,10,open chain (10),open chain,generic topology,5,9,0,14.0,0.2594953356812639
+0.3,10,closed ring (10),closed ring,generic topology,5,10,0,15.0,0.7053814555522596
+0.3,10,8-gonal dipyramid (10 monomers),compact polyhedron,illustrative graph,5,10,104,-16.2,1.9880907401385246e-14
+0.3,10,5-gonal prism (10 monomers),compact polyhedron,illustrative graph,5,10,10,12.0,0.03511887475300373
+0.3,10,5-gonal antiprism (10 monomers),compact polyhedron,illustrative graph,5,10,40,3.0,4.3340134530128265e-06
+0.3,11,open chain (11),open chain,generic topology,5,10,0,15.0,0.2689414213699951
+0.3,11,closed ring (11),closed ring,generic topology,5,11,0,16.0,0.7310585786300049
+0.3,12,open chain (12),open chain,generic topology,6,11,0,17.0,0.26367435495754354
+0.3,12,closed ring (12),closed ring,generic topology,6,12,0,18.0,0.7167412077117508
+0.3,12,icosahedron (12 monomers),compact polyhedron,illustrative graph,6,12,108,-14.399999999999999,6.08444767315549e-15
+0.3,12,6-gonal prism (12 monomers),compact polyhedron,illustrative graph,6,12,12,14.4,0.01958403782605315
+0.3,12,6-gonal antiprism (12 monomers),compact polyhedron,illustrative graph,6,12,48,3.6000000000000014,3.9950464643709194e-07
