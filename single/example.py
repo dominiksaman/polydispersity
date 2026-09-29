@@ -1,38 +1,45 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Runnable example: produce the oligomer-size and mass distributions and save the
-two figures shown in the README.
+"""One reference figure. Run from the repository root: python -m single.example."""
 
-Run with:  python example.py
-"""
+from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 
-from oligomer_distribution import oligomer_distribution, plot_oligomer_distribution
-from mass_distribution import mass_distribution, plot_mass_distribution
+from .mass_distribution import mass_distribution
+from .oligomer_distribution import oligomer_distribution
+from .statistical_mechanics import energies_from_rates, site_count_distribution
 
-# Three rate constants for a polydisperse, even-biased protein:
-#   k_on / k_off_dimer = 24  -> peaks near a ~20-mer
-#   k_off_monomer (12) > k_off_dimer (1) -> even sizes preferred
-K_ON, K_OFF_MONOMER, K_OFF_DIMER = 24.0, 12.0, 1.0
-MONOMER_MASS = 20_000.0  # Da
 
-# ---- oligomer-size distribution -----------------------------------------
-sizes, abundance = oligomer_distribution(K_ON, K_OFF_MONOMER, K_OFF_DIMER,
-                                         max_size=60)
-fig, ax = plt.subplots(figsize=(7, 4))
-plot_oligomer_distribution(sizes, abundance, K_ON, K_OFF_MONOMER, K_OFF_DIMER,
-                           ax=ax, show=False)
-fig.tight_layout()
-fig.savefig("example_oligomer.png", dpi=120)
+def main() -> None:
+    rates = (20.0, 10.0, 1.0)  # effective on, unpaired off, paired off
+    sizes, p = oligomer_distribution(*rates, max_size=60)
+    energies = energies_from_rates(*rates)
+    closed_form = site_count_distribution(
+        energies.edge_kj_mol, energies.dimer_kj_mol, max_size=60)
+    masses, mass_p = mass_distribution(*rates, monomer_mass=20000, max_size=60)
 
-# ---- mass distribution ---------------------------------------------------
-masses, abundance = mass_distribution(K_ON, K_OFF_MONOMER, K_OFF_DIMER,
-                                      MONOMER_MASS, max_size=60)
-fig, ax = plt.subplots(figsize=(7, 4))
-plot_mass_distribution(masses, abundance, MONOMER_MASS, ax=ax, show=False)
-fig.tight_layout()
-fig.savefig("example_mass.png", dpi=120)
+    fig, (ax_size, ax_mass) = plt.subplots(1, 2, figsize=(10, 4), layout="constrained")
+    colors = np.where(sizes % 2 == 0, "#2c7fb8", "#d95f0e")
+    ax_size.bar(sizes, p, color=colors, width=0.88, label="Rate-model equilibrium")
+    ax_size.plot(sizes, closed_form, color="#263238", linewidth=1.1,
+                 label="Same model, closed-form weights")
+    ax_size.set(xlim=(0.5, 32.5), xlabel="Monomers per oligomer",
+                ylabel="Oligomer number fraction")
+    ax_size.legend(frameon=False, fontsize=8)
+    ax_mass.bar(masses / 1000, mass_p, color=colors, width=17.6)
+    ax_mass.set(xlim=(10, 650), xlabel="Neutral mass (kDa; 20 kDa per monomer)",
+                ylabel="Oligomer number fraction")
+    fig.suptitle("Effective on = 20; unpaired off = 10; paired off = 1")
+    path = Path(__file__).with_name("size_distribution.png")
+    fig.savefig(path, dpi=180)
+    plt.close(fig)
+    print(f"Wrote {path}")
+    print(f"Mode {sizes[np.argmax(p)]}; mean {sizes @ p:.6f}; "
+          f"P(n > 24) {p[sizes > 24].sum():.6f}; "
+          f"closed-form maximum error {np.max(np.abs(p - closed_form)):.2e}")
 
-print("wrote example_oligomer.png and example_mass.png")
+
+if __name__ == "__main__":
+    main()

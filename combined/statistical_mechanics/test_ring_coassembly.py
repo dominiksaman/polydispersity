@@ -13,6 +13,7 @@ from combined.statistical_mechanics import (
     contact_classes,
     fit_hetero_energy,
 )
+from combined.statistical_mechanics.ring_coassembly import R_KJ_MOL_K
 
 
 class RingCoassemblyTests(unittest.TestCase):
@@ -72,6 +73,20 @@ class RingCoassemblyTests(unittest.TestCase):
         np.testing.assert_allclose(fitted.log_activity_ratios, log_ratios,
                                    rtol=0, atol=1e-8)
         self.assertLess(fitted.root_mean_square_error, 1e-10)
+
+    def test_contact_energy_gauge_is_absorbed_into_activity(self):
+        temperature = 298.15
+        g_aa, g_ab, g_bb, log_ratio = -0.7, 1.3, 0.4, 0.2
+        shift_a, shift_b = 2.2, -0.8
+        reference = activity_distribution(
+            12, g_ab, g_aa=g_aa, g_bb=g_bb, temperature=temperature,
+            log_activity_ratio=log_ratio)
+        shifted = activity_distribution(
+            12, g_ab + (shift_a + shift_b) / 2,
+            g_aa=g_aa + shift_a, g_bb=g_bb + shift_b, temperature=temperature,
+            log_activity_ratio=log_ratio + (shift_a - shift_b) /
+                (R_KJ_MOL_K * temperature))
+        np.testing.assert_allclose(reference, shifted, atol=1e-14)
 
 
 if __name__ == "__main__":

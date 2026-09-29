@@ -8,9 +8,10 @@ images are distinct if they differ as labelled arrangements. Arrangements
 with the same composition and contact counts are grouped exactly, so no
 2**size enumeration is needed for normal calculations.
 
-Energies are in kJ/mol per contact. Only differences between contact energies
-are identifiable from a fixed-size composition distribution. The activity
-ratio a/b sets the chemical potential difference between A and B.
+Energies are in kJ/mol per contact. With a fitted activity ratio, the
+identifiable contact contrast is g_AB - (g_AA + g_BB)/2; g_AA-g_BB is
+confounded with that activity ratio. Absolute interface energies are not
+identified by a fixed-size composition distribution.
 """
 
 from __future__ import annotations
@@ -191,8 +192,9 @@ def fit_hetero_energy(
     Each observed series has ``size + 1`` nonnegative abundances ordered by
     A count (0 through size). It is normalized before fitting. The activity
     ratios are nuisance parameters, as in the thesis's simultaneous fit of
-    three mixing ratios. AA and BB contact energies are held fixed because
-    only their differences from AB can be identified from these data.
+    three mixing ratios. AA and BB are held fixed: the identifiable energy
+    is the AB contrast against their mean, while their difference can be
+    absorbed into the activity ratio.
 
     Requires SciPy. The fit minimizes unweighted squared differences in
     *normalized* composition probabilities; experimental uncertainties are

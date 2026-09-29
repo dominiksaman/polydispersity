@@ -38,8 +38,8 @@ full relative distribution, which we then normalise.
 What each rate does (intuitively)
 ---------------------------------
 * ``k_on``          -- how readily a monomer adds on.  Sets the OVERALL SIZE:
-                       the distribution peaks near ``k_on / k_off_dimer``.
-                       Bigger ``k_on`` -> bigger oligomers.
+                       bigger ``k_on`` -> bigger oligomers. The mode depends
+                       on both off-rates as well as the effective on-rate.
 * ``k_off_dimer``   -- how readily a monomer leaves a fully-paired (even) part
                        of the oligomer.  Breaking a dimer is hard, so this is
                        usually the SMALLEST rate.  Bigger -> smaller oligomers.
@@ -60,6 +60,7 @@ matter, so e.g. (k_on, k_off_monomer, k_off_dimer) = (24, 5, 1) and
 
 from __future__ import annotations
 
+from math import isfinite
 from typing import Optional, Tuple
 
 import numpy as np
@@ -79,8 +80,8 @@ def oligomer_distribution(
     Parameters
     ----------
     k_on : float
-        Effective monomer association rate ``k+`` (controls the overall size;
-        the distribution peaks near ``k_on / k_off_dimer``).
+        Effective monomer association rate ``k+ * [P_1]``. All three rates
+        jointly determine the modal size.
     k_off_monomer : float
         Off-rate of the single unpaired monomer from an odd-sized oligomer
         (``k-_m``); larger values favour even sizes.
@@ -88,7 +89,8 @@ def oligomer_distribution(
         Off-rate of a monomer from a dimer in an even-sized oligomer (``k-_d``);
         usually the smallest of the three rates.
     max_size : int, optional
-        Largest oligomer size (number of monomers) to compute.  Default 60.
+        Numerical truncation of the size range, not a physical upper limit.
+        Default 60.
     normalise : bool, optional
         If True (default) the abundances sum to 1 (a probability distribution
         over sizes).  If False, abundances are relative to the monomer
@@ -112,31 +114,38 @@ def oligomer_distribution(
         If any rate is non-positive or ``max_size < 1``.
     """
     # ---- validate inputs -------------------------------------------------
-    if min(k_on, k_off_monomer, k_off_dimer) <= 0:
-        raise ValueError("All rate constants must be positive.")
-    if max_size < 1:
-        raise ValueError("max_size must be at least 1.")
+    if not all(isfinite(value) and value > 0
+               for value in (k_on, k_off_monomer, k_off_dimer)):
+        raise ValueError("All rate constants must be finite and positive.")
+    if not isinstance(max_size, int) or isinstance(max_size, bool) or max_size < 1:
+        raise ValueError("max_size must be a positive integer.")
 
     # ---- build the distribution by recursion ----------------------------
     sizes = np.arange(1, max_size + 1)
-    abundance = np.empty(max_size, dtype=float)
-    abundance[0] = 1.0  # [P_1]: the monomer is the reference point
+    log_weights = np.zeros(max_size, dtype=float)
+    log_on = np.log(k_on)
+    log_paired = np.log(k_off_dimer)
+    log_unpaired = np.log(k_off_monomer)
 
     for i in range(2, max_size + 1):
         if i % 2 == 0:
             # even oligomer: every monomer is paired -> dimer off-rate, with a
             # statistical factor i for the number of equivalent positions.
-            effective_off_rate = i * k_off_dimer
+            log_off_rate = np.log(i) + log_paired
         else:
             # odd oligomer: one spare monomer (k_off_monomer) plus the paired
             # part (the (i-1) already-paired monomers leave at k_off_dimer).
-            effective_off_rate = (i - 1) * k_off_dimer + k_off_monomer
-        # abundance[i-1] is [P_i]; abundance[i-2] is [P_(i-1)]
-        abundance[i - 1] = abundance[i - 2] * k_on / effective_off_rate
+            log_off_rate = np.logaddexp(np.log(i - 1) + log_paired, log_unpaired)
+        log_weights[i - 1] = log_weights[i - 2] + log_on - log_off_rate
 
     # ---- normalise -------------------------------------------------------
     if normalise:
-        abundance = abundance / abundance.sum()
+        abundance = np.exp(log_weights - log_weights.max())
+        abundance /= abundance.sum()
+    else:
+        if log_weights.max() > np.log(np.finfo(float).max):
+            raise OverflowError("Monomer-relative weights exceed float range; use normalise=True.")
+        abundance = np.exp(log_weights)
 
     # ---- optional outputs ------------------------------------------------
     if csv_path is not None:
@@ -185,7 +194,7 @@ def plot_oligomer_distribution(
            color="#d95f0e", label="odd (one unpaired monomer)")
 
     ax.set_xlabel("oligomer size (number of monomers)")
-    ax.set_ylabel("relative abundance")
+    ax.set_ylabel("Oligomer number fraction / relative weight")
     title = "Equilibrium oligomer-size distribution"
     if None not in (k_on, k_off_monomer, k_off_dimer):
         title += (f"\n$k_{{on}}$={k_on:g}, $k^-_m$={k_off_monomer:g}, "
@@ -201,11 +210,10 @@ def plot_oligomer_distribution(
 
 
 if __name__ == "__main__":
-    # Example: a polydisperse, even-biased oligomer that peaks near a 24-mer.
-    # k_on/k_off_dimer = 24 sets the size; k_off_monomer > k_off_dimer makes
-    # even sizes dominate.
+    # Requested reference: effective on 20, unpaired off 10, paired off 1.
+    # The modal size is 16; k_on/k_off_dimer alone does not fix the mode.
     sizes, abundance = oligomer_distribution(
-        k_on=24.0, k_off_monomer=12.0, k_off_dimer=1.0, max_size=60,
+        k_on=20.0, k_off_monomer=10.0, k_off_dimer=1.0, max_size=60,
     )
     peak = sizes[np.argmax(abundance)]
     even_odd = abundance[sizes % 2 == 0].sum() / abundance[sizes % 2 == 1].sum()

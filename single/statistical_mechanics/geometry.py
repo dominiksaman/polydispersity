@@ -10,11 +10,7 @@ It does not supply geometry-dependent strain or conformational entropy.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import exp, isfinite
-
-import numpy as np
-
-from .size_distribution import R_KJ_MOL_K
+from math import isfinite
 
 
 @dataclass(frozen=True)
@@ -99,36 +95,38 @@ def tetrahedron() -> Scaffold:
                                          for b in range(a + 1, 4)))
 
 
-def subdivided_tetrahedron() -> Scaffold:
-    """A 24-mer illustration with two dimers along each tetrahedron edge.
-
-    This is a controlled same-capacity comparison, not an architecture
-    identified in the published alphaB-crystallin structure catalogue.
-    """
-    edges = []
-    for index, (a, b) in enumerate(tetrahedron().edges):
-        midpoint = 4 + index
-        edges.extend(((a, midpoint), (midpoint, b)))
-    return Scaffold("subdivided tetrahedron", tuple(edges))
+def _validate_sides(sides: int) -> None:
+    if not isinstance(sides, int) or isinstance(sides, bool) or sides < 3:
+        raise ValueError("sides must be an integer of at least three")
 
 
-def ring_distribution(per_dimer_free_energy_kj_mol: float, *,
-                      temperature: float = 298.15,
-                      max_dimers: int = 30) -> tuple[np.ndarray, np.ndarray]:
-    """Grand-canonical probabilities across *even, closed-ring* sizes.
+def prism(sides: int) -> Scaffold:
+    _validate_sides(sides)
+    edges = [(i, (i + 1) % sides) for i in range(sides)]
+    edges += [(sides + i, sides + (i + 1) % sides) for i in range(sides)]
+    edges += [(i, sides + i) for i in range(sides)]
+    return Scaffold(f"{sides}-gonal prism", tuple(edges))
 
-    The energy includes all contact energies and the monomer chemical
-    potential: ΔG = g_dimer + 2*g_C-terminal - 2*mu_monomer. With no
-    size-dependent strain or degeneracy, log weight = -m*ΔG/RT, so adjacent
-    ring sizes have a constant ratio and cannot produce an interior mode.
-    """
-    if (not isfinite(per_dimer_free_energy_kj_mol)
-            or not isfinite(temperature) or temperature <= 0):
-        raise ValueError("free energy must be finite and temperature positive")
-    if (not isinstance(max_dimers, int) or isinstance(max_dimers, bool)
-            or max_dimers < 3):
-        raise ValueError("max_dimers must be an integer of at least three")
-    dimers = np.arange(3, max_dimers + 1)
-    log_weights = -dimers * per_dimer_free_energy_kj_mol / (R_KJ_MOL_K * temperature)
-    weights = np.exp(log_weights - np.max(log_weights))
-    return 2 * dimers, weights / weights.sum()
+
+def antiprism(sides: int) -> Scaffold:
+    _validate_sides(sides)
+    edges = [(i, (i + 1) % sides) for i in range(sides)]
+    edges += [(sides + i, sides + (i + 1) % sides) for i in range(sides)]
+    for i in range(sides):
+        edges.extend(((i, sides + i), (i, sides + (i - 1) % sides)))
+    return Scaffold(f"{sides}-gonal antiprism", tuple(edges))
+
+
+def pyramid(sides: int) -> Scaffold:
+    _validate_sides(sides)
+    edges = [(i, (i + 1) % sides) for i in range(sides)]
+    edges += [(i, sides) for i in range(sides)]
+    return Scaffold(f"{sides}-gonal pyramid", tuple(edges))
+
+
+def dipyramid(sides: int) -> Scaffold:
+    _validate_sides(sides)
+    edges = [(i, (i + 1) % sides) for i in range(sides)]
+    edges += [(i, sides) for i in range(sides)]
+    edges += [(i, sides + 1) for i in range(sides)]
+    return Scaffold(f"{sides}-gonal dipyramid", tuple(edges))

@@ -1,99 +1,62 @@
-# single (polydisperse-assembly for one protein)
+# Single-protein equilibrium distributions
 
-Compute the equilibrium **oligomer-size** and **mass** distributions of a single
-self-assembling, *polydisperse* protein from three rate constants.
+`oligomer_distribution.py` evaluates the equilibrium recurrence of the modified
+helical polymerisation model. Its larger oligomers have more possible monomer
+exit sites. Paired sites dissociate at `k_off_dimer`; the single unpaired site
+of an odd oligomer dissociates at `k_off_monomer`.
 
-Many proteins — small heat-shock proteins (sHsps) are a classic example — do not
-form one well-defined complex but populate a whole range of oligomer sizes at
-once. This package reproduces that size distribution using the exact equilibrium
-solution of the "modified helical polymerisation" model (Baldwin *et al.*, 2011), in
-which the protein grows and shrinks one monomer at a time with a built-in
-preference for **even**-sized (fully paired) oligomers.
-
-## The model
-
-Assembly happens by sequential monomer addition,
-
-```
-P₁ + P₁ ⇌ P₂ ⇌ P₃ ⇌ … ⇌ Pᵢ
+```text
+even n:  [P_n]/[P_(n-1)] = k_on / (n*k_off_dimer)
+odd n:   [P_n]/[P_(n-1)] = k_on / ((n-1)*k_off_dimer + k_off_monomer)
 ```
 
-At equilibrium the abundance of each size follows a simple recursion. Because
-monomers prefer to pair into dimers, an oligomer with an **even** number of
-monomers (all paired) is more stable than one with an **odd** number (one
-unpaired "spare" monomer), so the model uses two different off-rates:
-
-```
-even i :  [Pᵢ] / [Pᵢ₋₁] = k_on / ( i · k_off_dimer )
-odd  i :  [Pᵢ] / [Pᵢ₋₁] = k_on / ( (i−1) · k_off_dimer + k_off_monomer )
-```
-
-Starting from the monomer and applying this recursion gives the full
-distribution.
-
-## The three rate constants
-
-| parameter | symbol | what it controls |
-|---|---|---|
-| `k_on` | k⁺ | **Overall size.** How readily a monomer adds on. The distribution peaks near `k_on / k_off_dimer`; bigger `k_on` → bigger oligomers. |
-| `k_off_dimer` | k⁻_d | How readily a monomer leaves a fully-paired (even) part of an oligomer. Breaking a dimer is hard, so this is usually the **smallest** rate. Bigger → smaller oligomers. |
-| `k_off_monomer` | k⁻_m | **Even:odd bias.** How readily the single unpaired monomer leaves an odd-sized oligomer. When much larger than `k_off_dimer`, the spare monomer falls off fast and **even sizes dominate**. |
-
-Only the *ratios* of the three rates matter, so `(24, 12, 1)` and `(48, 24, 2)`
-give the same distribution. `k_on` is an effective ("pseudo-first-order") rate
-that already includes the free-monomer concentration.
+Here `k_on = k_plus * [P_1]` is an effective first-order rate containing the
+free-monomer concentration. Only rate ratios determine the normalized curve.
+All three rates affect the mode; `k_on/k_off_dimer` alone does not determine it.
+The recurrence matches the thesis source and the equilibrium equations in
+[Baldwin et al. (2011)](https://baldwinlab.chem.ox.ac.uk/publications/2011%20alphaB%201.pdf).
 
 ## Usage
 
+From the repository root, after installing `requirements.txt`:
+
 ```python
-from oligomer_distribution import oligomer_distribution
-from mass_distribution import mass_distribution
+from single.oligomer_distribution import oligomer_distribution
+from single.mass_distribution import mass_distribution
 
-# Oligomer-size distribution: returns (sizes, abundance) as NumPy arrays
-sizes, abundance = oligomer_distribution(
-    k_on=24.0, k_off_monomer=12.0, k_off_dimer=1.0, max_size=60,
-)
-
-# ... write it to CSV (columns: oligomer_size,abundance) and/or pop up a plot
-oligomer_distribution(24.0, 12.0, 1.0, csv_path="distribution.csv", plot=True)
-
-# Mass distribution: same rates + a monomer mass -> (masses, abundance)
-masses, abundance = mass_distribution(
-    k_on=24.0, k_off_monomer=12.0, k_off_dimer=1.0,
-    monomer_mass=20_000.0,        # Da (any mass unit works)
-    csv_path="spectrum.csv", plot=True,
-)
+sizes, number_fraction = oligomer_distribution(20, 10, 1, max_size=60)
+masses, same_number_fraction = mass_distribution(20, 10, 1, monomer_mass=20_000)
 ```
 
-Every function returns plain NumPy arrays; the `csv_path` and `plot` arguments
-are optional conveniences.
+Both functions return NumPy arrays and optionally accept `csv_path` and `plot`.
+Normalized calculations use log weights to avoid overflow. With
+`normalise=False`, weights are relative to the monomer and raise `OverflowError`
+if those raw weights exceed floating-point range. Rates and monomer mass must
+be finite and positive; `max_size` must be a positive integer.
 
-## Example output
+## Reference result
 
-`oligomer_distribution(24, 12, 1)` — a polydisperse, even-biased distribution
-peaking near an 18-mer:
+At effective on = 20, unpaired off = 10, paired off = 1, with `max_size=60`:
 
->> example_oligomer.png
+| Quantity | Value |
+| --- | ---: |
+| Mode | 16 monomers |
+| Mean | 16.012607 monomers |
+| Number fraction above 24 monomers | 0.032656 |
 
-The same system as a mass spectrum, with a 20 kDa monomer
-(`mass_distribution(24, 12, 1, 20_000)`):
+![Size and neutral-mass distributions](size_distribution.png)
 
->> example_mass.png
+Regenerate with `python -m single.example`. The line is the independently
+evaluated closed-form equilibrium weight of the **same** rate model, described
+in [statistical mechanics](statistical_mechanics/readme.md).
 
-## Requirements
+## Interpretation
 
-- Python ≥ 3.8
-- NumPy
-- Matplotlib (only needed for plotting)
-
-```
-pip install -r requirements.txt
-```
-
-## Files
-
-| file | purpose |
-|---|---|
-| `oligomer_distribution.py` | equilibrium oligomer-size distribution |
-| `mass_distribution.py` | converts the size distribution to a mass spectrum |
-| `example.py` | runnable example that produces the two figures above |
+- Fractions count oligomer molecules. Subunit fractions require weighting by
+  size and renormalizing. Native MS intensities additionally require a response model.
+- `mass_distribution` relabels size as neutral mass; it does not simulate a
+  charge-state spectrum or change number fractions into mass fractions.
+- `max_size` is a numerical truncation. Setting it to 24 conditions the curve
+  on sizes at most 24; it does not establish a physical upper size limit.
+- Total protein concentration is not an input. Predicting a concentration
+  series from bimolecular `k_plus` requires solving free-monomer mass balance.

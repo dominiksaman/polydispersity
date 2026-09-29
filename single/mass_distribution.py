@@ -6,9 +6,8 @@ Mass distribution of a single self-assembling protein.
 This builds directly on :mod:`oligomer_distribution`: it takes the same three
 rate constants, computes the equilibrium oligomer-size distribution, and then
 converts the size axis (number of monomers) into a mass axis using the mass of a
-single monomer.  The result is what a native mass-spectrometry or mass-photometry
-experiment effectively measures: the abundance of each oligomer plotted against
-its molecular mass.
+single monomer. This relabels oligomer number fractions by neutral mass. It
+does not include the response or charge states of a measurement technique.
 
 Because every oligomer of size ``i`` has mass ``i * monomer_mass``, the
 conversion is just a relabelling of the x-axis -- the abundances are unchanged.
@@ -16,11 +15,15 @@ conversion is just a relabelling of the x-axis -- the abundances are unchanged.
 
 from __future__ import annotations
 
+from math import isfinite
 from typing import Optional, Tuple
 
 import numpy as np
 
-from oligomer_distribution import oligomer_distribution, _save_csv
+if __package__:
+    from .oligomer_distribution import oligomer_distribution, _save_csv
+else:
+    from oligomer_distribution import oligomer_distribution, _save_csv
 
 
 def mass_distribution(
@@ -67,8 +70,8 @@ def mass_distribution(
         If ``monomer_mass`` is non-positive (other inputs are checked by
         :func:`oligomer_distribution`).
     """
-    if monomer_mass <= 0:
-        raise ValueError("monomer_mass must be positive.")
+    if not isfinite(monomer_mass) or monomer_mass <= 0:
+        raise ValueError("monomer_mass must be finite and positive.")
 
     # Reuse the size distribution, then map size -> mass.
     sizes, abundance = oligomer_distribution(
@@ -109,8 +112,8 @@ def plot_mass_distribution(
     plt.setp(markerline, color="#2c7fb8", markersize=3)
 
     ax.set_xlabel(f"mass ({mass_unit})")
-    ax.set_ylabel("relative abundance")
-    title = "Equilibrium mass distribution"
+    ax.set_ylabel("Oligomer number fraction / relative weight")
+    title = "Oligomer distribution on a neutral-mass axis"
     if monomer_mass is not None:
         title += f"\nmonomer mass = {monomer_mass:g} {mass_unit}"
     ax.set_title(title)
@@ -123,10 +126,9 @@ def plot_mass_distribution(
 
 
 if __name__ == "__main__":
-    # Example: same even-biased ~24-mer as in oligomer_distribution, with a
-    # 20 kDa monomer (so the most abundant species sits near 480 kDa).
+    # Reference mode: 16 subunits, or 320 kDa for a 20 kDa monomer.
     masses, abundance = mass_distribution(
-        k_on=24.0, k_off_monomer=12.0, k_off_dimer=1.0,
+        k_on=20.0, k_off_monomer=10.0, k_off_dimer=1.0,
         monomer_mass=20_000.0, max_size=60,
     )
     peak_mass = masses[np.argmax(abundance)]

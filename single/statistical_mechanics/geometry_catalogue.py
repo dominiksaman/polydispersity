@@ -1,19 +1,14 @@
-"""Exploratory oligomer geometries with one monomer at each graph vertex.
+"""Mathematical geometry hypotheses with one monomer at each graph vertex.
 
-This is a different coarse graining from ``geometry_ensemble``: that module
-puts a *dimer* on each scaffold edge, as in the published alphaB-crystallin
-models. Here a six-vertex octahedron is a six-monomer hypothesis. Graph edges
-are possible spatial adjacencies, not all simultaneously occupied bonds.
+Edges are possible spatial adjacencies. No interface energies, contact counts
+or equilibrium populations are inferred from vertex degree. This convention
+differs from the dimer-on-edge scaffolds in ``geometry.py``.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import exp, isfinite
-from typing import Mapping
-
-from .geometry import cube, octahedron, tetrahedron
-from .geometry_ensemble import antiprism, dipyramid, prism, pyramid
+from .geometry import antiprism, cube, dipyramid, octahedron, prism, pyramid, tetrahedron
 
 
 @dataclass(frozen=True)
@@ -41,53 +36,6 @@ class MonomerGeometry:
             result[a] += 1
             result[b] += 1
         return tuple(result)
-
-    @property
-    def dimer_contacts(self) -> int:
-        # Assumes the graph permits a maximum matching of this size.
-        return self.monomers // 2
-
-    @property
-    def c_terminal_contacts(self) -> int:
-        # One directed contact per step along the chosen path/cycle.
-        return self.monomers if self.closed else max(0, self.monomers - 1)
-
-    @property
-    def excess_coordination(self) -> int:
-        # Available adjacencies above a path/ring's degree two are a shape
-        # descriptor. They are not counted as extra C-terminal bonds.
-        return sum(max(0, degree - 2) ** 2 for degree in self.degrees)
-
-
-@dataclass(frozen=True)
-class MonomerEnergy:
-    """Dimensionless energies in kBT; positive contact terms are favourable."""
-
-    epsilon_dimer: float = 1.0
-    epsilon_c_terminal: float = 1.0
-    shape_penalty: float = 0.0
-
-    def __post_init__(self) -> None:
-        if not all(isfinite(x) for x in (self.epsilon_dimer,
-                                         self.epsilon_c_terminal,
-                                         self.shape_penalty)):
-            raise ValueError("energies must be finite")
-        if self.shape_penalty < 0:
-            raise ValueError("shape penalty must be nonnegative")
-
-
-@dataclass(frozen=True)
-class MonomerContribution:
-    size: int
-    geometry: str
-    family: str
-    evidence: str
-    dimer_contacts: int
-    c_terminal_contacts: int
-    excess_coordination: int
-    log_weight: float
-    share: float
-
 
 def _path(size: int) -> MonomerGeometry:
     return MonomerGeometry(f"open chain ({size})", "open chain", size,
@@ -136,12 +84,12 @@ def _pentagonal_face_icosahedron() -> MonomerGeometry:
 
 
 def monomer_candidates(max_size: int = 12, *,
-                       include_small_polyhedra: bool = False) -> tuple[MonomerGeometry, ...]:
+                       include_small_polyhedra: bool = True) -> tuple[MonomerGeometry, ...]:
     """One open path and one closed cycle per size, plus selected compact graphs.
 
-    Small compact graphs are mathematically possible at four/five monomers,
-    but omitted by default to make the user's proposed six-monomer onset an
-    explicit hypothesis. No claim is made that the library is exhaustive.
+    Compact graphs are included from four monomers. Excluding them at four/
+    five with ``include_small_polyhedra=False`` is an optional physical
+    hypothesis, not a geometric threshold. The library is not exhaustive.
     """
     if not isinstance(max_size, int) or isinstance(max_size, bool) or max_size < 1:
         raise ValueError("max_size must be a positive integer")
@@ -174,48 +122,3 @@ def monomer_candidates(max_size: int = 12, *,
     candidates += [item for item in compact
                    if minimum <= item.monomers <= max_size]
     return tuple(candidates)
-
-
-def monomer_contributions(
-    size: int, energy: MonomerEnergy = MonomerEnergy(), *,
-    candidates: tuple[MonomerGeometry, ...] | None = None,
-    offsets_kbt: Mapping[str, float] | None = None,
-    log_multiplicities: Mapping[str, float] | None = None,
-) -> tuple[MonomerContribution, ...]:
-    """Boltzmann shares conditional on size and the stated graph catalogue.
-
-    One representative maximal dimer matching and Hamiltonian path/cycle is
-    assumed per graph. Their unknown conformational and symmetry factors may
-    be supplied through ``log_multiplicities``; defaults are all equal.
-    """
-    if not isinstance(size, int) or isinstance(size, bool) or size < 1:
-        raise ValueError("size must be a positive integer")
-    candidates = monomer_candidates(max(12, size)) if candidates is None else candidates
-    selected = [item for item in candidates if item.monomers == size]
-    if not selected:
-        return ()
-    names = {item.name for item in candidates}
-    if len(names) != len(candidates):
-        raise ValueError("candidate names must be unique")
-    offsets_kbt = {} if offsets_kbt is None else offsets_kbt
-    log_multiplicities = {} if log_multiplicities is None else log_multiplicities
-    if (set(offsets_kbt) | set(log_multiplicities)) - names:
-        raise ValueError("unknown candidate in offset or multiplicity mapping")
-    weighted = []
-    for item in selected:
-        offset = offsets_kbt.get(item.name, 0.0)
-        log_mult = log_multiplicities.get(item.name, 0.0)
-        if not isfinite(offset) or not isfinite(log_mult):
-            raise ValueError("offsets and log multiplicities must be finite")
-        logw = (energy.epsilon_dimer * item.dimer_contacts
-                + energy.epsilon_c_terminal * item.c_terminal_contacts
-                - energy.shape_penalty * item.excess_coordination
-                - offset + log_mult)
-        weighted.append((item, logw))
-    top = max(logw for _, logw in weighted)
-    denominator = sum(exp(logw - top) for _, logw in weighted)
-    return tuple(MonomerContribution(
-        size, item.name, item.family, item.evidence, item.dimer_contacts,
-        item.c_terminal_contacts, item.excess_coordination, logw,
-        exp(logw - top) / denominator)
-        for item, logw in weighted)
