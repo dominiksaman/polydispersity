@@ -3,6 +3,17 @@
 This folder contains an exact reformulation of the existing rate model and an
 explicit framework for testing geometry-dependent equilibrium hypotheses.
 
+## Thermodynamic reservoir model
+
+[The new reservoir script](reservoir_readme.md) adapts the ideal cluster ensemble
+of Dear, Šarić, Michaels, Dobson and Knowles (2018). It solves monomer mass
+balance, retains a monomer/dimer pool, and predicts larger-species distributions
+from supplied formation free energies with bulk, surface, and packing terms.
+Its coefficients are illustrative. No kinetic rate enters that calculation.
+Run `python -m single.statistical_mechanics.simulate_reservoir` for one summary
+figure and a concentration series. The documentation distinguishes the exact
+reservoir count sampling from spatial particle simulation.
+
 ## Exact equilibrium weights
 
 Write `alpha = k_on_eff/k_d` and `r = k_m/k_d`. Relative to a monomer,

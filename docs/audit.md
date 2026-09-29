@@ -1,5 +1,17 @@
 # Scientific and software audit — 29 September 2026
 
+## Subsequent thermodynamic extension
+
+The [reservoir model](../single/statistical_mechanics/reservoir_readme.md) adds
+an independent ideal-mixture thermodynamic calculation with supplied formation
+free energies, monomer mass balance, a small-species pool, and exact open-reservoir
+count sampling. Its bulk/surface/packing family is inspired by the Knowles group's
+2018 globular model; its coefficients are illustrative. It does not establish
+geometry-dependent free energies or replicate the paper's spatial Monte Carlo.
+Seven additional conservation, standard-state, convergence, and sampling checks
+bring the current suite to 28 tests. The original audit below remains a record
+of the preceding cleanup.
+
 ## Conclusions
 
 The single-protein equilibrium recurrence agrees with the thesis equations and
