@@ -32,7 +32,7 @@ def main() -> None:
         writer.writeheader()
         writer.writerows(rows)
 
-    fig, (ax_all, ax_six) = plt.subplots(2, 1, figsize=(10.5, 7.8),
+    fig, (ax_all, ax_eleven) = plt.subplots(2, 1, figsize=(10.5, 7.8),
                                        layout="constrained")
     families = ("open chain", "closed ring", "compact polyhedron")
     colors = ("#718da6", "#dc9971", "#72ad96")
@@ -53,28 +53,28 @@ def main() -> None:
     ax_all.legend(frameon=False, ncol=3, loc="lower left")
     ax_all.grid(axis="y", alpha=0.17)
 
-    penalty_grid = np.linspace(0, 0.3, 121)
-    six_names = [item.name for item in candidates if item.monomers == 6]
-    line_colors = ("#718da6", "#dc9971", "#ae88bf", "#72ad96", "#d7b658")
-    for name, color in zip(six_names, line_colors):
+    penalty_grid = np.linspace(0, 0.15, 121)
+    eleven_names = [item.name for item in candidates if item.monomers == 11]
+    line_colors = ("#718da6", "#dc9971", "#ae88bf", "#72ad96")
+    for name, color in zip(eleven_names, line_colors):
         shares = []
         for penalty in penalty_grid:
             values = monomer_contributions(
-                6, MonomerEnergy(1, 1, float(penalty)), candidates=candidates)
+                11, MonomerEnergy(1, 1, float(penalty)), candidates=candidates)
             shares.append(next(item.share for item in values if item.geometry == name))
-        ax_six.plot(penalty_grid, shares, linewidth=2, label=name, color=color)
-    ax_six.set(xlim=(0, 0.3), ylim=(0, 1),
+        ax_eleven.plot(penalty_grid, shares, linewidth=2, label=name, color=color)
+    ax_eleven.set(xlim=(0, 0.15), ylim=(0, 1),
                xlabel="Assumed compact-shape penalty (kBT per squared excess degree)",
-               ylabel="P(geometry | 6-mer)",
-               title="Six-monomer octahedron competes with several other arrangements")
-    ax_six.legend(frameon=False, ncol=2, fontsize=8)
-    ax_six.grid(alpha=0.17)
+               ylabel="P(geometry | 11-mer)",
+               title="Two distinct eleven-monomer polyhedral candidates")
+    ax_eleven.legend(frameon=False, ncol=2, fontsize=8)
+    ax_eleven.grid(alpha=0.17)
     image_path = directory / "monomer_geometry_contributions.png"
     fig.savefig(image_path, dpi=180)
     plt.close(fig)
     print(f"Wrote {csv_path}")
     print(f"Wrote {image_path}")
-    for size in (3, 5, 6, 8, 12):
+    for size in (3, 5, 6, 8, 11, 12):
         values = monomer_contributions(
             size, MonomerEnergy(1, 1, 0.1), candidates=candidates)
         print(f"{size}-mer: " + ", ".join(

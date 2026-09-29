@@ -31,8 +31,10 @@ shape_penalty_kbt,size,geometry,family,evidence,dimer_contacts,c_terminal_contac
 0.0,10,8-gonal dipyramid (10 monomers),compact polyhedron,illustrative graph,5,10,104,15.0,0.22894404789977563
 0.0,10,5-gonal prism (10 monomers),compact polyhedron,illustrative graph,5,10,10,15.0,0.22894404789977563
 0.0,10,5-gonal antiprism (10 monomers),compact polyhedron,illustrative graph,5,10,40,15.0,0.22894404789977563
-0.0,11,open chain (11),open chain,generic topology,5,10,0,15.0,0.2689414213699951
-0.0,11,closed ring (11),closed ring,generic topology,5,11,0,16.0,0.7310585786300049
+0.0,11,open chain (11),open chain,generic topology,5,10,0,15.0,0.10923177257303593
+0.0,11,closed ring (11),closed ring,generic topology,5,11,0,16.0,0.2969227424756547
+0.0,11,capped pentagonal prism (11 monomers),compact polyhedron,illustrative graph,5,11,34,16.0,0.2969227424756547
+0.0,11,pentagonal-face icosahedral polyhedron (11 monomers),compact polyhedron,illustrative graph,5,11,74,16.0,0.2969227424756547
 0.0,12,open chain (12),open chain,generic topology,6,11,0,17.0,0.08422380840089738
 0.0,12,closed ring (12),closed ring,generic topology,6,12,0,18.0,0.22894404789977563
 0.0,12,icosahedron (12 monomers),compact polyhedron,illustrative graph,6,12,108,18.0,0.22894404789977563
@@ -70,8 +72,10 @@ shape_penalty_kbt,size,geometry,family,evidence,dimer_contacts,c_terminal_contac
 0.1,10,8-gonal dipyramid (10 monomers),compact polyhedron,illustrative graph,5,10,104,4.6,1.7349294261986698e-05
 0.1,10,5-gonal prism (10 monomers),compact polyhedron,illustrative graph,5,10,10,14.0,0.20972487443946417
 0.1,10,5-gonal antiprism (10 monomers),compact polyhedron,illustrative graph,5,10,40,11.0,0.010441586662159283
-0.1,11,open chain (11),open chain,generic topology,5,10,0,15.0,0.2689414213699951
-0.1,11,closed ring (11),closed ring,generic topology,5,11,0,16.0,0.7310585786300049
+0.1,11,open chain (11),open chain,generic topology,5,10,0,15.0,0.26242164050630257
+0.1,11,closed ring (11),closed ring,generic topology,5,11,0,16.0,0.7133359767826943
+0.1,11,capped pentagonal prism (11 monomers),compact polyhedron,illustrative graph,5,11,34,12.6,0.023806354125581745
+0.1,11,pentagonal-face icosahedral polyhedron (11 monomers),compact polyhedron,illustrative graph,5,11,74,8.6,0.0004360285854214824
 0.1,12,open chain (12),open chain,generic topology,6,11,0,17.0,0.21932523776939197
 0.1,12,closed ring (12),closed ring,generic topology,6,12,0,18.0,0.5961878083509976
 0.1,12,icosahedron (12 monomers),compact polyhedron,illustrative graph,6,12,108,7.199999999999999,1.2161935230155288e-05
@@ -109,8 +113,10 @@ shape_penalty_kbt,size,geometry,family,evidence,dimer_contacts,c_terminal_contac
 0.3,10,8-gonal dipyramid (10 monomers),compact polyhedron,illustrative graph,5,10,104,-16.2,1.9880907401385246e-14
 0.3,10,5-gonal prism (10 monomers),compact polyhedron,illustrative graph,5,10,10,12.0,0.03511887475300373
 0.3,10,5-gonal antiprism (10 monomers),compact polyhedron,illustrative graph,5,10,40,3.0,4.3340134530128265e-06
-0.3,11,open chain (11),open chain,generic topology,5,10,0,15.0,0.2689414213699951
-0.3,11,closed ring (11),closed ring,generic topology,5,11,0,16.0,0.7310585786300049
+0.3,11,open chain (11),open chain,generic topology,5,10,0,15.0,0.2689341133954625
+0.3,11,closed ring (11),closed ring,generic topology,5,11,0,16.0,0.73103871349563
+0.3,11,capped pentagonal prism (11 monomers),compact polyhedron,illustrative graph,5,11,34,5.800000000000001,2.717294195106659e-05
+0.3,11,pentagonal-face icosahedral polyhedron (11 monomers),compact polyhedron,illustrative graph,5,11,74,-6.199999999999999,1.6695632561201364e-10
 0.3,12,open chain (12),open chain,generic topology,6,11,0,17.0,0.26367435495754354
 0.3,12,closed ring (12),closed ring,generic topology,6,12,0,18.0,0.7167412077117508
 0.3,12,icosahedron (12 monomers),compact polyhedron,illustrative graph,6,12,108,-14.399999999999999,6.08444767315549e-15

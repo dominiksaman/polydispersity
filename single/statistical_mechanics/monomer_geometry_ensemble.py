@@ -117,6 +117,24 @@ def _icosahedron() -> MonomerGeometry:
     return _compact("icosahedron (12 monomers)", 12, tuple(edges))
 
 
+def _capped_pentagonal_prism() -> MonomerGeometry:
+    """Eleven-vertex prism with a pyramid erected on one pentagonal face."""
+    edges = prism(5).edges + tuple((i, 10) for i in range(5))
+    return _compact("capped pentagonal prism (11 monomers)", 11, edges)
+
+
+def _pentagonal_face_icosahedron() -> MonomerGeometry:
+    """Delete one icosahedral apex, leaving an eleven-vertex polyhedral graph.
+
+    The five neighbours of the deleted apex bound a pentagonal face in the
+    resulting graph; no missing monomer is included in its contact counts.
+    """
+    edges = tuple((a - 1, b - 1) for a, b in _icosahedron().edges
+                  if a != 0 and b != 0)
+    return _compact("pentagonal-face icosahedral polyhedron (11 monomers)",
+                    11, edges)
+
+
 def monomer_candidates(max_size: int = 12, *,
                        include_small_polyhedra: bool = False) -> tuple[MonomerGeometry, ...]:
     """One open path and one closed cycle per size, plus selected compact graphs.
@@ -136,6 +154,8 @@ def monomer_candidates(max_size: int = 12, *,
         _compact("triangular prism (6 monomers)", 6, prism(3).edges),
         _compact("octahedron (6 monomers)", 6, octahedron().edges),
         _compact("cube (8 monomers)", 8, cube().edges),
+        _capped_pentagonal_prism(),
+        _pentagonal_face_icosahedron(),
         _icosahedron(),
     ]
     for sides in range(5, 9):

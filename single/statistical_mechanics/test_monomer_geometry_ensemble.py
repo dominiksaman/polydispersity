@@ -58,6 +58,11 @@ class MonomerGeometryTests(unittest.TestCase):
         six = {item.name for item in default if item.monomers == 6}
         self.assertIn("octahedron (6 monomers)", six)
         self.assertIn("triangular prism (6 monomers)", six)
+        eleven = [item for item in default if item.monomers == 11]
+        self.assertEqual({item.family for item in eleven},
+                         {"open chain", "closed ring", "compact polyhedron"})
+        self.assertEqual(len([item for item in eleven if item.family ==
+                              "compact polyhedron"]), 2)
         optional = monomer_candidates(5, include_small_polyhedra=True)
         self.assertIn("tetrahedron (4 monomers)", {item.name for item in optional})
         self.assertIn("triangular dipyramid (5 monomers)",
@@ -81,6 +86,16 @@ class MonomerGeometryTests(unittest.TestCase):
         self.assertTrue(all(item.dimer_contacts == 3 and
                             item.c_terminal_contacts == 6 for item in closed))
         self.assertAlmostEqual(sum(item.share for item in values), 1)
+
+    def test_eleven_vertex_polyhedra_are_distinct_and_normalized(self):
+        compact = [item for item in monomer_candidates(12)
+                   if item.monomers == 11 and item.family == "compact polyhedron"]
+        self.assertEqual({len(item.edges) for item in compact}, {20, 25})
+        self.assertTrue(all(item.dimer_contacts == 5 and
+                            item.c_terminal_contacts == 11 for item in compact))
+        values = monomer_contributions(11, MonomerEnergy(1, 1, 0.1))
+        self.assertAlmostEqual(sum(item.share for item in values), 1)
+        self.assertEqual(len(values), 4)
 
     def test_contact_and_shape_energies_change_shares(self):
         no_terminal = monomer_contributions(3, MonomerEnergy(1, 0, 0))

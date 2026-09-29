@@ -20,6 +20,11 @@ ring from three monomers onward, and selected compact polyhedra from six
 onward. The six-monomer candidates are an open chain, closed ring, triangular
 prism, octahedron, and pentagonal pyramid. At eight monomers, the catalogue
 includes a cube and square antiprism; at twelve it includes an icosahedron.
+The eleven-monomer catalogue now includes two distinct compact graphs:
+a pentagonal prism capped on one face (11 vertices, 20 edges) and an
+icosahedral graph with one apex removed and a pentagonal face in its place
+(11 vertices, 25 edges). Their graph edges are possible adjacencies, so
+20 or 25 edges do **not** mean that many C-terminal bonds.
 These are graph hypotheses rather than experimentally established αB-crystallin
 structures. A tetrahedron is mathematically possible with four monomers and
 a square pyramid or triangular dipyramid with five. Set
@@ -53,13 +58,20 @@ At a fixed size, the dimer energy cancels. All closed graphs also have the
 same C-terminal contact count, so distinguishing two closed shapes needs
 shape or entropy information. The [monomer-level CSV](monomer_geometry_contributions.csv)
 contains every candidate at sizes 1–12 under three shape penalties, and the
-[figure](monomer_geometry_contributions.png) shows family shares and six-mer
-sensitivity. At `epsilon_d=epsilon_C=1` and `kappa=0.1 kBT`, the six-mer
+[figure](monomer_geometry_contributions.png) shows family shares and
+eleven-mer sensitivity. At `epsilon_d=epsilon_C=1` and `kappa=0.1 kBT`, the six-mer
 shares are 16.3% open chain, 44.4% ring, 24.3% triangular prism, 4.0%
 octahedron, and 10.9% pentagonal pyramid. **These numbers illustrate the
 assumptions; they are not inferred solution abundances.** Run
 `python -m single.statistical_mechanics.compare_monomer_geometries` to
 regenerate the outputs.
+
+For the eleven-mer with those same parameters, the shares are 26.2% open
+chain, 71.3% ring, 2.38% capped pentagonal prism, and 0.044% pentagonal-face
+icosahedral graph. At zero shape penalty, each of the three closed structures
+has 29.7%, and the open chain has 10.9%. The sharp change with the unmeasured
+penalty is the point of the sensitivity plot, not evidence that either
+11-vertex polyhedron is absent in solution.
 
 ## Relative geometry contributions in the dimer-on-edge model
 
