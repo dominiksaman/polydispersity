@@ -25,6 +25,10 @@ a pentagonal prism capped on one face (11 vertices, 20 edges) and an
 icosahedral graph with one apex removed and a pentagonal face in its place
 (11 vertices, 25 edges). Their graph edges are possible adjacencies, so
 20 or 25 edges do **not** mean that many C-terminal bonds.
+See the [11-monomer geometry drawing](eleven_monomer_geometries.png): each
+point is one monomer; the gold region is the five-triangle cap on the prism
+or the pentagonal face of the icosahedral variant. Regenerate it with
+`python -m single.statistical_mechanics.draw_eleven_geometries`.
 These are graph hypotheses rather than experimentally established αB-crystallin
 structures. A tetrahedron is mathematically possible with four monomers and
 a square pyramid or triangular dipyramid with five. Set
