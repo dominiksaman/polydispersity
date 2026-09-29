@@ -1,0 +1,193 @@
+degree_penalty_kbt,size,geometry,family,evidence,parent_size,microstates,dimer_contacts,c_terminal_contacts,log_weight,share
+0.0,5,single ring (3 dimers),ring,catalogued,6,6,2,4,7.7917594692280545,1.0
+0.0,6,single ring (3 dimers),ring,catalogued,6,1,3,6,9.0,1.0
+0.0,7,single ring (4 dimers),ring,catalogued,8,8,3,6,11.079441541679836,1.0
+0.0,8,single ring (4 dimers),ring,catalogued,8,1,4,8,12.0,1.0
+0.0,9,single ring (5 dimers),ring,catalogued,10,10,4,8,14.302585092994047,1.0
+0.0,10,single ring (5 dimers),ring,catalogued,10,1,5,10,15.0,1.0
+0.0,11,single ring (6 dimers),ring,catalogued,12,12,5,10,17.484906649788,0.2689414213699951
+0.0,11,tetrahedron,degree-3 polyhedron,catalogued,12,12,5,11,18.484906649788,0.7310585786300049
+0.0,12,single ring (6 dimers),ring,catalogued,12,1,6,12,18.0,0.5
+0.0,12,tetrahedron,degree-3 polyhedron,catalogued,12,1,6,12,18.0,0.5
+0.0,13,single ring (7 dimers),ring,catalogued,14,14,6,12,20.63905732961526,1.0
+0.0,14,single ring (7 dimers),ring,catalogued,14,1,7,14,21.0,1.0
+0.0,15,single ring (8 dimers),ring,catalogued,16,16,7,14,23.77258872223978,0.2689414213699951
+0.0,15,square pyramid,mixed-degree polyhedron,illustrative graph,16,16,7,15,24.77258872223978,0.7310585786300049
+0.0,16,single ring (8 dimers),ring,catalogued,16,1,8,16,24.0,0.5
+0.0,16,square pyramid,mixed-degree polyhedron,illustrative graph,16,1,8,16,24.0,0.5
+0.0,17,single ring (9 dimers),ring,catalogued,18,18,8,16,26.890371757896165,0.15536240349696362
+0.0,17,triangular prism,degree-3 polyhedron,catalogued,18,18,8,17,27.890371757896165,0.4223187982515182
+0.0,17,triangular dipyramid,mixed-degree polyhedron,illustrative graph,18,18,8,17,27.890371757896165,0.4223187982515182
+0.0,18,single ring (9 dimers),ring,catalogued,18,1,9,18,27.0,0.3333333333333333
+0.0,18,triangular prism,degree-3 polyhedron,catalogued,18,1,9,18,27.0,0.3333333333333333
+0.0,18,triangular dipyramid,mixed-degree polyhedron,illustrative graph,18,1,9,18,27.0,0.3333333333333333
+0.0,19,single ring (10 dimers),ring,catalogued,20,20,9,18,29.99573227355399,0.2689414213699951
+0.0,19,pentagonal pyramid,mixed-degree polyhedron,illustrative graph,20,20,9,19,30.99573227355399,0.7310585786300049
+0.0,20,single ring (10 dimers),ring,catalogued,20,1,10,20,30.0,0.5
+0.0,20,pentagonal pyramid,mixed-degree polyhedron,illustrative graph,20,1,10,20,30.0,0.5
+0.0,21,single ring (11 dimers),ring,catalogued,22,22,10,20,33.09104245335831,1.0
+0.0,22,single ring (11 dimers),ring,catalogued,22,1,11,22,33.0,1.0
+0.0,23,single ring (12 dimers),ring,catalogued,24,24,11,22,36.17805383034795,0.15536240349696362
+0.0,23,cube,degree-3 polyhedron,catalogued,24,24,11,23,37.17805383034795,0.4223187982515182
+0.0,23,octahedron,degree-4 polyhedron,catalogued,24,24,11,23,37.17805383034795,0.4223187982515182
+0.0,24,single ring (12 dimers),ring,catalogued,24,1,12,24,36.0,0.3333333333333333
+0.0,24,cube,degree-3 polyhedron,catalogued,24,1,12,24,36.0,0.3333333333333333
+0.0,24,octahedron,degree-4 polyhedron,catalogued,24,1,12,24,36.0,0.3333333333333333
+0.0,25,single ring (13 dimers),ring,catalogued,26,26,12,24,39.25809653802148,0.2689414213699951
+0.0,25,vertex-split octahedron,mixed-degree polyhedron,illustrative vertex split,26,26,12,25,40.25809653802148,0.7310585786300049
+0.0,26,single ring (13 dimers),ring,catalogued,26,1,13,26,39.0,0.5
+0.0,26,vertex-split octahedron,mixed-degree polyhedron,illustrative vertex split,26,1,13,26,39.0,0.5
+0.0,27,single ring (14 dimers),ring,catalogued,28,28,13,26,42.3322045101752,0.2689414213699951
+0.0,27,two vertex-split octahedron,mixed-degree polyhedron,illustrative vertex split,28,28,13,27,43.3322045101752,0.7310585786300049
+0.0,28,single ring (14 dimers),ring,catalogued,28,1,14,28,42.0,0.5
+0.0,28,two vertex-split octahedron,mixed-degree polyhedron,illustrative vertex split,28,1,14,28,42.0,0.5
+0.0,29,single ring (15 dimers),ring,catalogued,30,30,14,28,45.40119738166216,0.15536240349696362
+0.0,29,pentagonal prism,degree-3 polyhedron,catalogued,30,30,14,29,46.40119738166216,0.4223187982515182
+0.0,29,pentagonal dipyramid,mixed-degree polyhedron,illustrative graph,30,30,14,29,46.40119738166216,0.4223187982515182
+0.0,30,single ring (15 dimers),ring,catalogued,30,1,15,30,45.0,0.3333333333333333
+0.0,30,pentagonal prism,degree-3 polyhedron,catalogued,30,1,15,30,45.0,0.3333333333333333
+0.0,30,pentagonal dipyramid,mixed-degree polyhedron,illustrative graph,30,1,15,30,45.0,0.3333333333333333
+0.0,31,single ring (16 dimers),ring,catalogued,32,32,15,30,48.46573590279973,0.2689414213699951
+0.0,31,square antiprism,degree-4 polyhedron,catalogued,32,32,15,31,49.46573590279973,0.7310585786300049
+0.0,32,single ring (16 dimers),ring,catalogued,32,1,16,32,48.0,0.5
+0.0,32,square antiprism,degree-4 polyhedron,catalogued,32,1,16,32,48.0,0.5
+0.0,33,single ring (17 dimers),ring,extrapolated,34,34,16,32,51.52636052461616,1.0
+0.0,34,single ring (17 dimers),ring,extrapolated,34,1,17,34,51.0,1.0
+0.0,35,single ring (18 dimers),ring,extrapolated,36,36,17,34,54.58351893845611,0.2689414213699951
+0.0,35,hexagonal prism,degree-3 polyhedron,catalogued,36,36,17,35,55.58351893845611,0.7310585786300049
+0.0,36,single ring (18 dimers),ring,extrapolated,36,1,18,36,54.0,0.5
+0.0,36,hexagonal prism,degree-3 polyhedron,catalogued,36,1,18,36,54.0,0.5
+0.0,37,single ring (19 dimers),ring,extrapolated,38,38,18,36,57.63758615972638,1.0
+0.0,38,single ring (19 dimers),ring,extrapolated,38,1,19,38,57.0,1.0
+0.0,39,single ring (20 dimers),ring,extrapolated,40,40,19,38,60.68887945411394,0.2689414213699951
+0.0,39,pentagonal antiprism,degree-4 polyhedron,catalogued,40,40,19,39,61.68887945411394,0.7310585786300049
+0.0,40,single ring (20 dimers),ring,extrapolated,40,1,20,40,60.0,0.5
+0.0,40,pentagonal antiprism,degree-4 polyhedron,catalogued,40,1,20,40,60.0,0.5
+0.1,5,single ring (3 dimers),ring,catalogued,6,6,2,4,6.091759469228055,1.0
+0.1,6,single ring (3 dimers),ring,catalogued,6,1,3,6,7.8,1.0
+0.1,7,single ring (4 dimers),ring,catalogued,8,8,3,6,8.979441541679837,1.0
+0.1,8,single ring (4 dimers),ring,catalogued,8,1,4,8,10.4,1.0
+0.1,9,single ring (5 dimers),ring,catalogued,10,10,4,8,11.802585092994047,1.0
+0.1,10,single ring (5 dimers),ring,catalogued,10,1,5,10,13.0,1.0
+0.1,11,single ring (6 dimers),ring,catalogued,12,12,5,10,14.584906649788,0.03916572279676425
+0.1,11,tetrahedron,degree-3 polyhedron,catalogued,12,12,5,11,17.784906649788002,0.9608342772032357
+0.1,12,single ring (6 dimers),ring,catalogued,12,1,6,12,15.6,0.11920292202211738
+0.1,12,tetrahedron,degree-3 polyhedron,catalogued,12,1,6,12,17.6,0.8807970779778826
+0.1,13,single ring (7 dimers),ring,catalogued,14,14,6,12,17.339057329615258,1.0
+0.1,14,single ring (7 dimers),ring,catalogued,14,1,7,14,18.2,1.0
+0.1,15,single ring (8 dimers),ring,catalogued,16,16,7,14,20.072588722239782,0.01705896739402979
+0.1,15,square pyramid,mixed-degree polyhedron,illustrative graph,16,16,7,15,24.126461841079756,0.9829410326059702
+0.1,16,single ring (8 dimers),ring,catalogued,16,1,8,16,20.8,0.05732417589886871
+0.1,16,square pyramid,mixed-degree polyhedron,illustrative graph,16,1,8,16,23.6,0.9426758241011313
+0.1,17,single ring (9 dimers),ring,catalogued,18,18,8,16,22.790371757896164,0.005498895105334841
+0.1,17,triangular prism,degree-3 polyhedron,catalogued,18,18,8,17,26.990371757896167,0.36670113935368315
+0.1,17,triangular dipyramid,mixed-degree polyhedron,illustrative graph,18,18,8,17,27.52804616529727,0.6277999655409822
+0.1,18,single ring (9 dimers),ring,catalogued,18,1,9,18,23.4,0.019588777890354223
+0.1,18,triangular prism,degree-3 polyhedron,catalogued,18,1,9,18,26.4,0.393451121596832
+0.1,18,triangular dipyramid,mixed-degree polyhedron,illustrative graph,18,1,9,18,26.8,0.5869601005128138
+0.1,19,single ring (10 dimers),ring,catalogued,20,20,9,18,25.49573227355399,0.008871813486348492
+0.1,19,pentagonal pyramid,mixed-degree polyhedron,illustrative graph,20,20,9,19,30.211696923090475,0.9911281865136516
+0.1,20,single ring (10 dimers),ring,catalogued,20,1,10,20,26.0,0.03229546469845055
+0.1,20,pentagonal pyramid,mixed-degree polyhedron,illustrative graph,20,1,10,20,29.4,0.9677045353015494
+0.1,21,single ring (11 dimers),ring,catalogued,22,22,10,20,28.191042453358317,1.0
+0.1,22,single ring (11 dimers),ring,catalogued,22,1,11,22,28.6,1.0
+0.1,23,single ring (12 dimers),ring,catalogued,24,24,11,22,30.878053830347945,0.0014814347713637932
+0.1,23,cube,degree-3 polyhedron,catalogued,24,24,11,23,36.07805383034795,0.2685430021969176
+0.1,23,octahedron,degree-4 polyhedron,catalogued,24,24,11,23,37.07805383034795,0.7299755630317185
+0.1,24,single ring (12 dimers),ring,catalogued,24,1,12,24,31.2,0.005646254237289089
+0.1,24,cube,degree-3 polyhedron,catalogued,24,1,12,24,35.2,0.3082750359727872
+0.1,24,octahedron,degree-4 polyhedron,catalogued,24,1,12,24,36.0,0.6860787097899237
+0.1,25,single ring (13 dimers),ring,catalogued,26,26,12,24,33.55809653802148,0.0017310950270016526
+0.1,25,vertex-split octahedron,mixed-degree polyhedron,illustrative vertex split,26,26,12,25,39.91536505004269,0.9982689049729983
+0.1,26,single ring (13 dimers),ring,catalogued,26,1,13,26,33.8,0.006692850924284856
+0.1,26,vertex-split octahedron,mixed-degree polyhedron,illustrative vertex split,26,1,13,26,38.8,0.9933071490757153
+0.1,27,single ring (14 dimers),ring,catalogued,28,28,13,26,36.2322045101752,0.0014727801186894761
+0.1,27,two vertex-split octahedron,mixed-degree polyhedron,illustrative vertex split,28,28,13,27,42.75133407157503,0.9985272198813104
+0.1,28,single ring (14 dimers),ring,catalogued,28,1,14,28,36.4,0.005486298899450391
+0.1,28,two vertex-split octahedron,mixed-degree polyhedron,illustrative vertex split,28,1,14,28,41.6,0.9945137011005497
+0.1,29,single ring (15 dimers),ring,catalogued,30,30,14,28,38.90119738166216,0.0005175900313408044
+0.1,29,pentagonal prism,degree-3 polyhedron,catalogued,30,30,14,29,45.10119738166216,0.25504199162261054
+0.1,29,pentagonal dipyramid,mixed-degree polyhedron,illustrative graph,30,30,14,29,46.17240199686734,0.7444404183460488
+0.1,30,single ring (15 dimers),ring,catalogued,30,1,15,30,39.0,0.002084580959327279
+0.1,30,pentagonal prism,degree-3 polyhedron,catalogued,30,1,15,30,44.0,0.3093792455788413
+0.1,30,pentagonal dipyramid,mixed-degree polyhedron,illustrative graph,30,1,15,30,44.8,0.6885361734618315
+0.1,31,single ring (16 dimers),ring,catalogued,32,32,15,30,41.56573590279973,0.0004095671649860515
+0.1,31,square antiprism,degree-4 polyhedron,catalogued,32,32,15,31,49.36573590279973,0.9995904328350139
+0.1,32,single ring (16 dimers),ring,catalogued,32,1,16,32,41.6,0.0016588010801744243
+0.1,32,square antiprism,degree-4 polyhedron,catalogued,32,1,16,32,48.0,0.9983411989198255
+0.1,33,single ring (17 dimers),ring,extrapolated,34,34,16,32,44.22636052461616,1.0
+0.1,34,single ring (17 dimers),ring,extrapolated,34,1,17,34,44.2,1.0
+0.1,35,single ring (18 dimers),ring,extrapolated,36,36,17,34,46.883518938456106,0.000746028833836695
+0.1,35,hexagonal prism,degree-3 polyhedron,catalogued,36,36,17,35,54.08351893845611,0.9992539711661633
+0.1,36,single ring (18 dimers),ring,extrapolated,36,1,18,36,46.8,0.0024726231566347748
+0.1,36,hexagonal prism,degree-3 polyhedron,catalogued,36,1,18,36,52.8,0.9975273768433653
+0.1,37,single ring (19 dimers),ring,extrapolated,38,38,18,36,49.53758615972639,1.0
+0.1,38,single ring (19 dimers),ring,extrapolated,38,1,19,38,49.4,1.0
+0.1,39,single ring (20 dimers),ring,extrapolated,40,40,19,38,52.18887945411394,8.271722285166654e-05
+0.1,39,pentagonal antiprism,degree-4 polyhedron,catalogued,40,40,19,39,61.588879454113936,0.9999172827771484
+0.1,40,single ring (20 dimers),ring,extrapolated,40,1,20,40,52.0,0.00033535013046647816
+0.1,40,pentagonal antiprism,degree-4 polyhedron,catalogued,40,1,20,40,60.0,0.9996646498695336
+0.3,5,single ring (3 dimers),ring,catalogued,6,6,2,4,2.6917594692280553,1.0
+0.3,6,single ring (3 dimers),ring,catalogued,6,1,3,6,5.4,1.0
+0.3,7,single ring (4 dimers),ring,catalogued,8,8,3,6,4.7794415416798355,1.0
+0.3,8,single ring (4 dimers),ring,catalogued,8,1,4,8,7.2,1.0
+0.3,9,single ring (5 dimers),ring,catalogued,10,10,4,8,6.802585092994046,1.0
+0.3,10,single ring (5 dimers),ring,catalogued,10,1,5,10,9.0,1.0
+0.3,11,single ring (6 dimers),ring,catalogued,12,12,5,10,8.784906649788,0.0005002011070795643
+0.3,11,tetrahedron,degree-3 polyhedron,catalogued,12,12,5,11,16.384906649788,0.9994997988929205
+0.3,12,single ring (6 dimers),ring,catalogued,12,1,6,12,10.8,0.0024726231566347748
+0.3,12,tetrahedron,degree-3 polyhedron,catalogued,12,1,6,12,16.8,0.9975273768433653
+0.3,13,single ring (7 dimers),ring,catalogued,14,14,6,12,10.739057329615258,1.0
+0.3,14,single ring (7 dimers),ring,catalogued,14,1,7,14,12.6,1.0
+0.3,15,single ring (8 dimers),ring,catalogued,16,16,7,14,12.672588722239782,3.7658317396778874e-05
+0.3,15,square pyramid,mixed-degree polyhedron,illustrative graph,16,16,7,15,22.859507777736415,0.9999623416826031
+0.3,16,single ring (8 dimers),ring,catalogued,16,1,8,16,14.4,0.00022481677023329527
+0.3,16,square pyramid,mixed-degree polyhedron,illustrative graph,16,1,8,16,22.8,0.9997751832297667
+0.3,17,single ring (9 dimers),ring,catalogued,18,18,8,16,14.590371757896165,4.058095147785857e-06
+0.3,17,triangular prism,degree-3 polyhedron,catalogued,18,18,8,17,25.190371757896166,0.16287098903541153
+0.3,17,triangular dipyramid,mixed-degree polyhedron,illustrative graph,18,18,8,17,26.827386694713798,0.8371249528694408
+0.3,18,single ring (9 dimers),ring,catalogued,18,1,9,18,16.200000000000003,2.8565495108487535e-05
+0.3,18,triangular prism,degree-3 polyhedron,catalogued,18,1,9,18,25.2,0.23146860429681776
+0.3,18,triangular dipyramid,mixed-degree polyhedron,illustrative graph,18,1,9,18,26.4,0.7685028302080736
+0.3,19,single ring (10 dimers),ring,catalogued,20,20,9,18,16.49573227355399,4.749609770260946e-06
+0.3,19,pentagonal pyramid,mixed-degree polyhedron,illustrative graph,20,20,9,19,28.753175620854734,0.9999952503902297
+0.3,20,single ring (10 dimers),ring,catalogued,20,1,10,20,18.0,3.716893710288947e-05
+0.3,20,pentagonal pyramid,mixed-degree polyhedron,illustrative graph,20,1,10,20,28.2,0.9999628310628971
+0.3,21,single ring (11 dimers),ring,catalogued,22,22,10,20,18.391042453358317,1.0
+0.3,22,single ring (11 dimers),ring,catalogued,22,1,11,22,19.8,1.0
+0.3,23,single ring (12 dimers),ring,catalogued,24,24,11,22,20.278053830347947,5.883155887826983e-08
+0.3,23,cube,degree-3 polyhedron,catalogued,24,24,11,23,33.878053830347945,0.04742587038742841
+0.3,23,octahedron,degree-4 polyhedron,catalogued,24,24,11,23,36.87805383034795,0.9525740707810127
+0.3,24,single ring (12 dimers),ring,catalogued,24,1,12,24,21.6,5.110304481053241e-07
+0.3,24,cube,degree-3 polyhedron,catalogued,24,1,12,24,33.6,0.08317265399014212
+0.3,24,octahedron,degree-4 polyhedron,catalogued,24,1,12,24,36.0,0.9168268349794098
+0.3,25,single ring (13 dimers),ring,catalogued,26,26,12,24,22.158096538021486,3.783425994345986e-08
+0.3,25,vertex-split octahedron,mixed-degree polyhedron,illustrative vertex split,26,26,12,25,39.24814729728259,0.9999999621657402
+0.3,26,single ring (13 dimers),ring,catalogued,26,1,13,26,23.4,3.059022269256247e-07
+0.3,26,vertex-split octahedron,mixed-degree polyhedron,illustrative vertex split,26,1,13,26,38.4,0.999999694097773
+0.3,27,single ring (14 dimers),ring,catalogued,28,28,13,26,24.0322045101752,2.306120126781809e-08
+0.3,27,two vertex-split octahedron,mixed-degree polyhedron,illustrative vertex split,28,28,13,27,41.61731871743588,0.9999999769387987
+0.3,28,single ring (14 dimers),ring,catalogued,28,1,14,28,25.2,1.6788272481495258e-07
+0.3,28,two vertex-split octahedron,mixed-degree polyhedron,illustrative vertex split,28,1,14,28,40.8,0.9999998321172752
+0.3,29,single ring (15 dimers),ring,catalogued,30,30,14,28,25.901197381662154,2.3227209011684053e-09
+0.3,29,pentagonal prism,degree-3 polyhedron,catalogued,30,30,14,29,42.50119738166216,0.03760844938160168
+0.3,29,pentagonal dipyramid,mixed-degree polyhedron,illustrative graph,30,30,14,29,45.743390021633736,0.9623915482956775
+0.3,30,single ring (15 dimers),ring,catalogued,30,1,15,30,27.0,2.5442720212552927e-08
+0.3,30,pentagonal prism,degree-3 polyhedron,catalogued,30,1,15,30,42.0,0.08317269437778284
+0.3,30,pentagonal dipyramid,mixed-degree polyhedron,illustrative graph,30,1,15,30,44.4,0.916827280179497
+0.3,31,single ring (16 dimers),ring,catalogued,32,32,15,30,27.765735902799726,5.082742252522469e-10
+0.3,31,square antiprism,degree-4 polyhedron,catalogued,32,32,15,31,49.16573590279973,0.9999999994917257
+0.3,32,single ring (16 dimers),ring,catalogued,32,1,16,32,28.8,4.587181725605287e-09
+0.3,32,square antiprism,degree-4 polyhedron,catalogued,32,1,16,32,48.0,0.9999999954128183
+0.3,33,single ring (17 dimers),ring,extrapolated,34,34,16,32,29.626360524616164,1.0
+0.3,34,single ring (17 dimers),ring,extrapolated,34,1,17,34,30.6,1.0
+0.3,35,single ring (18 dimers),ring,extrapolated,36,36,17,34,31.48351893845611,3.074879870131731e-09
+0.3,35,hexagonal prism,degree-3 polyhedron,catalogued,36,36,17,35,51.08351893845611,0.9999999969251201
+0.3,36,single ring (18 dimers),ring,extrapolated,36,1,18,36,32.400000000000006,1.5229979512760455e-08
+0.3,36,hexagonal prism,degree-3 polyhedron,catalogued,36,1,18,36,50.4,0.9999999847700205
+0.3,37,single ring (19 dimers),ring,extrapolated,38,38,18,36,33.337586159726385,1.0
+0.3,38,single ring (19 dimers),ring,extrapolated,38,1,19,38,34.2,1.0
+0.3,39,single ring (20 dimers),ring,extrapolated,40,40,19,38,35.18887945411394,4.1829683074712315e-12
+0.3,39,pentagonal antiprism,degree-4 polyhedron,catalogued,40,40,19,39,61.38887945411394,0.9999999999958171
+0.3,40,single ring (20 dimers),ring,extrapolated,40,1,20,40,36.0,3.775134544136581e-11
+0.3,40,pentagonal antiprism,degree-4 polyhedron,catalogued,40,1,20,40,60.0,0.9999999999622486

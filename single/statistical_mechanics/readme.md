@@ -7,6 +7,71 @@ the specific-site thermodynamic interpretation in
 [Baldwin et al., *J. Mol. Biol.* 413 (2011)](https://baldwinlab.chem.ox.ac.uk/publications/2011%20alphaB%201.pdf),
 especially its Eqs. 5–7. The code here does not fit new experimental data.
 
+## Relative geometry contributions at a fixed size
+
+`geometry_ensemble.py` compares **alternative closed scaffold graphs at each
+oligomer size**. The catalogue includes single rings; tetrahedral, prismatic,
+antiprismatic, cubic and octahedral graphs; illustrative pyramids and
+dipyramids; and two vertex-split octahedral graphs for 26 and 28 monomers.
+An odd oligomer is a one-monomer defect of the next even closed scaffold.
+The complete candidate list and an evidence tag for each graph are in
+`geometry_contributions.csv`. This is a **finite hypothesis catalogue**, not
+an enumeration of every possible αB-crystallin architecture. The published
+multiple-ring candidates are not represented because their connecting
+contacts and relative conformational weights still need a graph definition.
+
+For geometry `g` at size `n`, the conditional partition weight is
+
+```
+q(g,n) = A_g Σ_(defect sites s) exp[epsilon_d*D_s + epsilon_C*C_s
+                                  - kappa*Σ_v (d_v(s)-d_*)² - Δf_g]
+P(g | n) = q(g,n) / Σ_h q(h,n)
+```
+
+Here `D` counts intact dimers, `C` counts directed C-terminal contacts,
+`d_v` is the occupied degree at vertex `v`, and all energy terms are in
+`k_B T`. `A_g` is an optional architecture/conformation multiplicity and
+`Δf_g` an optional shape offset. The default takes `A_g=1`, `Δf_g=0` and
+`d_*=4`. The penalty `kappa` is an **unmeasured illustrative shape free
+energy**. For even closed structures the sum has one graph state; for odd
+sizes it sums all labelled sites at which one monomer could be absent, with
+the remaining contacts at that vertex allowed to rearrange. This site
+counting is a modelling convention; actual conformer and symmetry weights
+are unknown. A ring's degree-two defect loses two C-terminal contacts,
+whereas a degree-three or degree-four vertex defect loses one.
+
+At every even size `n`, all closed graphs here have exactly `n/2` intact
+dimers and `n` C-terminal contacts. **Uniform interaction energies therefore
+cancel from `P(g | n)`**. The relative shares are controlled by shape free
+energies and multiplicities, which have not been measured. Monomer activity
+also cancels at fixed `n`. This calculation does not predict the overall
+size distribution `P(n)`; that would need a common standard state, monomer
+activity, and comparable architecture partition functions across sizes.
+
+For example, the 24-mer catalogue has a 12-dimer ring, cube and octahedron.
+With `epsilon_d=epsilon_C=1` and all offsets zero, the shares are:
+
+| Degree mismatch penalty `kappa` | Ring | Cube | Octahedron |
+| ---: | ---: | ---: | ---: |
+| 0 `k_B T` | 33.3% | 33.3% | 33.3% |
+| 0.1 `k_B T` | 0.6% | 30.8% | 68.6% |
+| 0.3 `k_B T` | <0.1% | 8.3% | 91.7% |
+
+The [structural study](https://baldwinlab.chem.ox.ac.uk/publications/2011%20alphaB%203.pdf)
+and its [candidate catalogue](https://baldwinlab.chem.ox.ac.uk/publications/2011%20alphaB%203%20supp.pdf)
+motivate several of these graphs and a degree-four preference in its
+ion-mobility comparison. That comparison is **not** a measurement of
+`kappa` or solution-state Boltzmann fractions. In particular, 25–28-mer
+shares in this small catalogue look very decisive because each size has
+only a single ring and an illustrative vertex-split graph; extra plausible
+architectures or a different shape offset could change them sharply.
+
+Run `python -m single.statistical_mechanics.compare_geometry_ensemble` at
+the repository root to regenerate `geometry_contributions.csv` (every size
+5–40 at three assumed penalties) and `geometry_contributions.png`. Call
+`conditional_contributions(size, EnergyParameters(...), offsets_kbt=...,
+log_multiplicities=...)` for other interaction and shape-energy hypotheses.
+
 ## Restricted equilibrium scaffold model
 
 `equilibrium_scaffold.py` now provides a **rate-free** statistical-mechanical
@@ -51,9 +116,10 @@ monomers are assumed to be able to rearrange into a cyclic C-terminal
 contact pattern; the model does not enumerate atomic conformations or their
 entropy. The crowded-vertex penalty is a tunable shape term with no measured
 value. Only one 24-monomer parent scaffold is considered at a time, so this
-example cannot predict oligomers above 24. A physical comparison needs a
-library of 24-, 26-, 28-, and other plausible scaffolds, their relative
-shape free energies, and concentration-dependent data to constrain `z`.
+example cannot predict oligomers above 24. The conditional geometry library
+above adds other closed sizes, but predicting a full size distribution still
+needs their relative shape free energies and concentration-dependent data to
+constrain `z`.
 
 ### Other arrangements at the same size
 
@@ -62,8 +128,10 @@ explicitly sketches **seven** candidate 24-mer scaffold families: a single
 12-dimer ring; double 6-dimer rings; triple 4-dimer rings; quadruple
 3-dimer rings; a cube; an octahedron; and a mixed-degree elongated triangular
 pyramid. It proposes an augmented triangular prism for 26 monomers and a
-gyrobifastigium for 28. The current code includes only the single-ring,
-cube, and octahedron parents. The paper's ion-mobility comparison favours
+gyrobifastigium for 28. The restricted occupied-pattern calculation below
+uses only the single-ring, cube, and octahedron parents; the separate
+conditional ensemble above adds other graph candidates. The paper's
+ion-mobility comparison favours
 degree-four polyhedra, but that does not establish zero solution population
 for the other candidates.
 
@@ -84,10 +152,11 @@ P_n = Z_n / Σ_m Z_m
 ```
 
 `q_(n,a)` must include the appropriate symmetry and conformational weights,
-and architectures must be deduplicated across parent templates. This is the
-next model, not a result already computed here. IM-MS collision cross sections
-and other structural restraints can narrow which `a` are plausible before
-their equilibrium weights are fitted.
+and architectures must be deduplicated across parent templates. The geometry
+ensemble above is a small conditional step toward this object, with
+illustrative shape energies; it is not a complete full-size partition sum.
+IM-MS collision cross sections and other structural restraints can narrow
+which `a` are plausible before their equilibrium weights are fitted.
 
 ### Calibration against the kinetic example
 
