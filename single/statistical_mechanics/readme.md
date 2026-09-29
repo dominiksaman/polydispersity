@@ -89,6 +89,40 @@ next model, not a result already computed here. IM-MS collision cross sections
 and other structural restraints can narrow which `a` are plausible before
 their equilibrium weights are fitted.
 
+### Calibration against the kinetic example
+
+`fit_scaffold_to_kinetics.py` fits **four shared equilibrium parameters**
+(`log(z)`, dimer stabilization, C-terminal stabilization, and saturated-vertex
+penalty) to the repository's synthetic kinetic example
+`(k_on_eff, k_m, k_d)=(24,12,1)`. Binding stabilizations and the penalty are
+constrained nonnegative. The kinetic curve is a calibration target, not an
+input to the partition function itself. Both curves are normalized over
+sizes `1..24` for the fit, then the fitted equilibrium curve is compared with
+the complete kinetic curve out to size 60.
+
+| Parent template | Total variation, sizes ≤24 | Total variation, full kinetic curve | Fitted mode |
+| --- | ---: | ---: | ---: |
+| Single 12-dimer ring | 0.237 | 0.281 | 24 |
+| Cube | 0.166 | 0.240 | 18 |
+| Octahedron | 0.148 | 0.230 | 24 |
+
+The 24-site parents cannot represent the kinetic curve's `0.133` probability
+above size 24. Their **within-range** shapes also disagree, especially near
+the full 24-mer. A concentration-proxy check fits at effective on-rate 24,
+then changes only `log(z)` by `log(new_on_rate/24)`. For the octahedron, total
+variation on sizes `1..24` rises to `0.234` at on-rate 12 and `0.281` at
+on-rate 36. Thus the present contact catalogue gives a qualitative finite
+peak but does **not** quantitatively replicate the kinetic family of curves.
+The earlier factorial toy model fits the single baseline curve more closely
+(total variation `0.049`), but that is a descriptive fit with different
+energies and is not a validated geometry-based explanation.
+
+A faithful equilibrium reproduction would require more candidate scaffold
+sizes, properly counted architecture/conformer weights, and shared parameters
+that succeed across concentrations. Assigning a separate free energy to each
+size could force an exact match, but would only encode the kinetic curve in
+new notation and is not the intended test.
+
 The rest of this document retains the exact kinetic reformulation and the
 earlier additive-contact examples as checks and contrasts. Their matching
 curves are not an independent equilibrium derivation.
@@ -211,10 +245,12 @@ python -m unittest single.statistical_mechanics.test_equilibrium_scaffold
 python -m single.statistical_mechanics.compare_models
 python -m single.statistical_mechanics.compare_geometries
 python -m single.statistical_mechanics.compare_equilibrium
+python -m single.statistical_mechanics.fit_scaffold_to_kinetics
 ```
 
 The plotting commands save `size_distribution_comparison.png`,
-`geometry_comparison.png`, and `equilibrium_scaffold_comparison.png` here.
+`geometry_comparison.png`, `equilibrium_scaffold_comparison.png`, and
+`scaffold_kinetic_fit.png` here.
 
 ```python
 from single.statistical_mechanics import energies_from_rates, site_count_distribution
