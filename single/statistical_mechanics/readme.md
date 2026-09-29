@@ -94,7 +94,8 @@ their equilibrium weights are fitted.
 `fit_scaffold_to_kinetics.py` fits **four shared equilibrium parameters**
 (`log(z)`, dimer stabilization, C-terminal stabilization, and saturated-vertex
 penalty) to the repository's synthetic kinetic example
-`(k_on_eff, k_m, k_d)=(24,12,1)`. Binding stabilizations and the penalty are
+`(k_on_eff, k_m, k_d)=(20,10,1)`: effective on-rate 20, unpaired off-rate
+10, and paired off-rate 1. Binding stabilizations and the penalty are
 constrained nonnegative. The kinetic curve is a calibration target, not an
 input to the partition function itself. Both curves are normalized over
 sizes `1..24` for the fit, then the fitted equilibrium curve is compared with
@@ -102,17 +103,18 @@ the complete kinetic curve out to size 60.
 
 | Parent template | Total variation, sizes ≤24 | Total variation, full kinetic curve | Fitted mode |
 | --- | ---: | ---: | ---: |
-| Single 12-dimer ring | 0.237 | 0.281 | 24 |
-| Cube | 0.166 | 0.240 | 18 |
-| Octahedron | 0.148 | 0.230 | 24 |
+| Single 12-dimer ring | 0.317 | 0.326 | 24 |
+| Cube | 0.119 | 0.138 | 18 |
+| Octahedron | 0.110 | 0.132 | 16 |
 
-The 24-site parents cannot represent the kinetic curve's `0.133` probability
-above size 24. Their **within-range** shapes also disagree, especially near
-the full 24-mer. A concentration-proxy check fits at effective on-rate 24,
-then changes only `log(z)` by `log(new_on_rate/24)`. For the octahedron, total
-variation on sizes `1..24` rises to `0.234` at on-rate 12 and `0.281` at
-on-rate 36. Thus the present contact catalogue gives a qualitative finite
-peak but does **not** quantitatively replicate the kinetic family of curves.
+With these rates, the kinetic curve peaks at a 16-mer and has `0.03266`
+probability above size 24. The octahedral equilibrium fit has the same mode;
+its remaining mismatch is partly within the shared size range. A
+concentration-proxy check fits at effective on-rate 20, then changes only
+`log(z)` by `log(new_on_rate/20)`. For the octahedron, total variation on
+sizes `1..24` is `0.138` at on-rate 16 and `0.112` at on-rate 18. Thus the
+present contact catalogue captures a broadly similar equilibrium curve but
+does **not** quantitatively replicate the kinetic family of curves.
 The earlier factorial toy model fits the single baseline curve more closely
 (total variation `0.049`), but that is a descriptive fit with different
 energies and is not a validated geometry-based explanation.

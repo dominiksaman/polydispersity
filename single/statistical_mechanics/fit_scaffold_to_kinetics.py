@@ -22,7 +22,8 @@ from single.statistical_mechanics.equilibrium_scaffold import (
 from single.statistical_mechanics.geometry import cube, dimer_ring, octahedron
 
 
-BASE_RATES = (24.0, 12.0, 1.0)
+# Argument order: effective on-rate, unpaired off-rate, paired off-rate.
+BASE_RATES = (20.0, 10.0, 1.0)
 MAX_SIZE = 60
 PARENT_SIZE = 24
 
@@ -63,15 +64,14 @@ def main() -> None:
     fits = [(catalogue, *fit_catalogue(catalogue, conditional_target))
             for catalogue in catalogues]
 
-    fig, (ax_full, ax_cond) = plt.subplots(
+    fig, (ax_full, ax_residual) = plt.subplots(
         2, 1, figsize=(10, 7.2), constrained_layout=True)
     ax_full.bar(sizes, full_kinetic, width=0.9, color="#b8d9ed",
                 label="Kinetic target")
-    ax_cond.bar(sizes[:PARENT_SIZE], conditional_target,
-                width=0.9, color="#b8d9ed", label="Kinetic target, n ≤ 24")
     colours = {"12-dimer ring": "#c44e52", "cube": "#8172b2",
                "octahedron": "#55a868"}
-    print(f"Kinetic probability above 24 monomers: {missing_tail:.4f}")
+    print(f"Kinetic target mode: {int(np.argmax(full_kinetic)) + 1}-mer")
+    print(f"Kinetic probability above 24 monomers: {missing_tail:.6f}")
     print("Parent      parameters (log z, eps_d, eps_C, kappa)"
           "        TV n<=24  TV full  mode")
     for catalogue, parameters, predicted in fits:
@@ -80,9 +80,9 @@ def main() -> None:
         colour = colours[catalogue.scaffold_name]
         ax_full.plot(sizes, padded, marker="o", markersize=2.4,
                      linewidth=1.5, color=colour, label=catalogue.scaffold_name)
-        ax_cond.plot(sizes[:PARENT_SIZE], predicted,
-                     marker="o", markersize=2.4, linewidth=1.5, color=colour,
-                     label=catalogue.scaffold_name)
+        ax_residual.plot(sizes[:PARENT_SIZE], predicted - conditional_target,
+                         marker="o", markersize=2.4, linewidth=1.5,
+                         color=colour, label=catalogue.scaffold_name)
         values = tuple(vars(parameters).values())
         print(f"{catalogue.scaffold_name:13} "
               f"{str(tuple(round(x, 3) for x in values)):38} "
@@ -90,22 +90,25 @@ def main() -> None:
               f"{total_variation(padded, full_kinetic):.4f}    "
               f"{int(np.argmax(predicted)) + 1}")
 
-    ax_full.axvspan(24.5, 60.5, color="#f1e5dc", alpha=0.5)
-    ax_full.set(xlim=(0, 61), ylabel="Fraction of oligomer molecules",
-                title="Fits to a kinetic example: missing scaffold sizes limit agreement")
+    ax_full.axvspan(24.5, 30.5, color="#f1e5dc", alpha=0.5)
+    ax_full.set(xlim=(0, 31), ylabel="Fraction of oligomer molecules",
+                title=f"Kinetic example ({BASE_RATES[0]:g}, "
+                      f"{BASE_RATES[1]:g}, {BASE_RATES[2]:g}): "
+                      f"{100 * (1 - missing_tail):.1f}% at sizes ≤24")
     ax_full.legend(frameon=False, fontsize=8)
-    ax_cond.set(xlim=(0.5, 24.5), xlabel="Oligomer size (monomers)",
-                ylabel="Fraction, conditional on n ≤ 24")
-    ax_cond.set_xticks(np.arange(2, 25, 2))
+    ax_residual.axhline(0, color="#666666", linewidth=0.8)
+    ax_residual.set(xlim=(0.5, 24.5), xlabel="Oligomer size (monomers)",
+                    ylabel="Equilibrium minus kinetic fraction\n(conditional on n ≤ 24)")
+    ax_residual.set_xticks(np.arange(2, 25, 2))
     output = Path(__file__).with_name("scaffold_kinetic_fit.png")
     fig.savefig(output, dpi=180)
     print(f"Wrote {output}")
 
-    print("\nHoldout test: fit at effective on-rate 24; change only log(z) "
-          "by log(new on-rate / 24)")
+    print(f"\nHoldout test: fit at effective on-rate {BASE_RATES[0]:g}; "
+          "change only log(z) by log(new on-rate / baseline)")
     print("Parent         on-rate  TV on n<=24  predicted mode  kinetic mode")
     for catalogue, parameters, _ in fits:
-        for new_on_rate in (12.0, 36.0):
+        for new_on_rate in (16.0, 18.0):
             _, target = oligomer_distribution(
                 new_on_rate, BASE_RATES[1], BASE_RATES[2], max_size=PARENT_SIZE)
             shifted = EquilibriumParameters(
