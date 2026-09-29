@@ -6,7 +6,7 @@ import numpy as np
 
 from .reservoir_thermodynamics import (
     GlobularModel, closed_equilibrium, equilibrium_at_activity,
-    globular_equilibrium, sample_reservoir,
+    enrich_reservoir, globular_equilibrium, sample_reservoir,
 )
 
 
@@ -70,6 +70,24 @@ class ReservoirTests(unittest.TestCase):
         self.assertGreater(total_counts.std(), 0)  # Open reservoir, not fixed N.
         self.assertLess(abs(total_counts.mean() - 3 * scale), 6 * total_counts.std() / np.sqrt(snapshots))
 
+    def test_enlarged_pool_preserves_larger_shape_and_mass_balance(self):
+        model = GlobularModel()
+        old = globular_equilibrium(model, 3)
+        adjusted, new = enrich_reservoir(model, 3, 0.2)
+        self.assertAlmostEqual(new.subunit_fraction[:2].sum(), 0.2, places=11)
+        self.assertAlmostEqual(new.sizes @ new.concentration, 3, places=11)
+        self.assertGreater(new.concentration[0], old.concentration[0])
+        self.assertGreater(new.concentration[1], old.concentration[1])
+        np.testing.assert_allclose(new.conditional_number_fraction(), old.conditional_number_fraction(),
+                                   rtol=1e-11, atol=1e-14)
+        self.assertAlmostEqual(new.concentration[1] / old.concentration[1],
+                               (new.concentration[0] / old.concentration[0])**2, places=10)
+        self.assertEqual(adjusted.dimer_binding_kbt, model.dimer_binding_kbt)
+        # Once chosen, energies stay fixed at other totals; a concentration
+        # series does not impose the same 20% pool at each point.
+        other = globular_equilibrium(adjusted, 0.3)
+        self.assertGreater(abs(other.subunit_fraction[:2].sum() - 0.2), 0.1)
+
     def test_invalid_inputs(self):
         for total in (0, -1, float("nan"), float("inf")):
             with self.assertRaises(ValueError):
@@ -79,6 +97,9 @@ class ReservoirTests(unittest.TestCase):
                 closed_equilibrium(energy, 1)
         with self.assertRaises(ValueError):
             GlobularModel(packing_kbt=0)
+        for target in (0, 1, float("nan"), 0.001):
+            with self.assertRaises(ValueError):
+                enrich_reservoir(GlobularModel(), 3, target)
 
 
 if __name__ == "__main__":

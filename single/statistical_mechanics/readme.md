@@ -13,6 +13,9 @@ Its coefficients are illustrative. No kinetic rate enters that calculation.
 Run `python -m single.statistical_mechanics.simulate_reservoir` for one summary
 figure and a concentration series. The documentation distinguishes the exact
 reservoir count sampling from spatial particle simulation.
+The current figure chooses 20% of subunits in the monomer/dimer pool by adjusting
+two formation free-energy terms, preserving the reference larger-size curve at
+3 µM. This is a controlled scenario; the reservoir fraction is not measured.
 
 ## Exact equilibrium weights
 

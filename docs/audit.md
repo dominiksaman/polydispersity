@@ -9,7 +9,10 @@ count sampling. Its bulk/surface/packing family is inspired by the Knowles group
 2018 globular model; its coefficients are illustrative. It does not establish
 geometry-dependent free energies or replicate the paper's spatial Monte Carlo.
 Seven additional conservation, standard-state, convergence, and sampling checks
-bring the current suite to 28 tests. The original audit below remains a record
+bring the suite to 28 tests. A further pool-enrichment check brings the current
+suite to 29 tests: the new chosen 20% monomer/dimer subunit pool preserves the
+conditional larger-species shape and mass balance at the reference total.
+The original audit below remains a record
 of the preceding cleanup.
 
 ## Conclusions

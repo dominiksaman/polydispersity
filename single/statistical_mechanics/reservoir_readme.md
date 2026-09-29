@@ -33,12 +33,15 @@ All energies refer to free monomers and a common standard concentration c0:
 F_1 = 0
 F_2 = -d
 F_n = -b*(n-1) + s*(n^(2/3)-1) + h*(n^(5/3)-1)
-      + u*[n is odd]                                      for n >=3
+      + u*[n is odd] + a                                  for n >=3
 ```
 
 `F_n = Delta G_n^0/kBT`; `b` is a bulk attraction coefficient, `s` a surface
 coefficient, and `h>0` a packing/connectivity coefficient. The explicit dimer
 stabilization `d` and unpaired penalty `u` extend the smooth cluster model.
+`a` is a constant formation free-energy offset for the larger-oligomer family,
+such as a hypothesized conformational cost per oligomer. It is an equilibrium
+state cost, not an activation barrier. Its physical value remains unknown.
 None is obtained from the kinetic rates. Surface and packing terms oppose
 unbounded growth and can create a small-species population plus a finite-size
 larger-species peak. Increasing total concentration still changes that peak.
@@ -79,12 +82,14 @@ energies changes the physical model. Under c0' = r*c0, the conversion is
 
 ```python
 from single.statistical_mechanics.reservoir_thermodynamics import (
-    GlobularModel, globular_equilibrium, sample_reservoir,
+    GlobularModel, enrich_reservoir, globular_equilibrium, sample_reservoir,
 )
 
 model = GlobularModel(bulk_kbt=8, surface_kbt=8, packing_kbt=0.18,
                       dimer_binding_kbt=4, unpaired_penalty_kbt=0.3)
-r = globular_equilibrium(model, total_concentration=3, standard_concentration=1)
+adjusted_model, r = enrich_reservoir(model, total_concentration=3,
+                                    pool_subunit_fraction=0.2,
+                                    standard_concentration=1)
 # With concentrations interpreted in µM, total is 3 µM of subunit equivalents.
 concentrations = r.concentration
 number_fractions = r.number_fraction
@@ -109,24 +114,62 @@ particle trajectory, or physical exchange kinetics.
 Change parameters or write another figure with CLI flags:
 
 ```bash
-python -m single.statistical_mechanics.simulate_reservoir --total 0.1 --output outputs/reservoir_low.png
-python -m single.statistical_mechanics.simulate_reservoir --packing 0.25 --output outputs/reservoir_packing.png
+python -m single.statistical_mechanics.simulate_reservoir --pool-subunit-fraction 0.3 --output outputs/reservoir_enriched.png
+python -m single.statistical_mechanics.simulate_reservoir --pool-subunit-fraction 0 --total 0.1 --output outputs/reservoir_low.png
 ```
+
+## Enlarging the monomer/dimer pool
+
+The default CLI chooses 20% of subunits in sizes 1 and 2 at the selected total
+concentration, while preserving the original conditional distribution for sizes
+at least three. The target must exceed the original pool fraction and be below
+one. `--pool-subunit-fraction 0` runs the unadjusted model.
+
+The helper solves the monomer/dimer mass balance for the selected pool mass,
+then weakens bulk association and adds a formation offset for sizes >=3. Let
+`delta` be the increase in log monomer activity and `A` the required common
+scale of larger-species concentrations. Choosing
+
+```text
+b_new = b_old - delta
+a_new = a_old + delta - log(A)
+```
+
+gives `c_n,new = A*c_n,old` for every n>=3. This leaves their **conditional**
+number fractions unchanged at the selected total. Total protein is conserved;
+the larger species become less abundant in absolute concentration. This is a
+constructed scenario using two free-energy adjustments, not a uniquely inferred
+mechanism. The dimer binding energy is unchanged, so `c_2` scales as `c_1^2`.
+
+The resulting energies are fixed for the plotted concentration series. The
+chosen 20% pool is not imposed again at each concentration, and the larger-size
+distribution generally changes as concentration changes.
 
 ## Illustrative result and verification
 
-The default uses c0=1 µM and C_total=3 µM. Free monomer is 0.01917 µM and dimer
-0.02006 µM; 98.02% of subunits are in sizes at least three. The full number
-distribution has its mode at the dimer. **Conditioned on sizes at least three**,
+At c0=1 µM and C_total=3 µM:
+
+| Quantity | Original | Enlarged pool (default plot) |
+| --- | ---: | ---: |
+| Free monomer | 0.01917 µM | 0.06969 µM |
+| Free dimer | 0.02006 µM | 0.26516 µM |
+| Monomer/dimer subunit fraction | 1.98% | 20.00% |
+| Monomer/dimer number fraction | 17.30% | 68.63% |
+| Bulk coefficient b | 8.0000 kBT | 6.7091 kBT |
+| Larger-family offset a | 0 kBT | 1.4941 kBT |
+
+The full number distribution has its mode at the dimer.
+**Conditioned on sizes at least three**, both scenarios have the same curve:
 the mode is 16, the mean is 15.6842, and the fraction above 24 is 4.93%.
 The figure conditions the kinetic comparison on the same support. Its total
 variation distance from the (20,10,1) curve is 0.1337; the shapes differ despite
 their shared mode. Matching the mode does not establish experimental agreement.
 The coefficients were selected to illustrate a finite-size peak, not fitted.
 
-Seven new tests check the analytic monomer/dimer limit, mass conservation,
+Eight reservoir tests check the analytic monomer/dimer limit, mass conservation,
 shared chemical potential, standard-state conversion, support convergence,
-concentration-dependent pooling, and reservoir count statistics. Run the full
+concentration-dependent pooling, reservoir count statistics, and preservation of
+the larger-species shape when enriching the small pool. Run the full
 suite with `python -m unittest discover -v`.
 
 A useful next test is a concentration series with measured small-species and

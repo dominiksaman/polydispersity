@@ -8,7 +8,7 @@ All formation free energies share the free-monomer reference and standard state.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from math import isfinite, log
 
 import numpy as np
@@ -26,6 +26,8 @@ class GlobularModel:
     A separate dimer free energy and an odd-size cost are native-protein
     extensions. The odd cost describes an unpaired-site penalty on the smooth
     envelope; it is not a dissociation rate or a count of inferred interfaces.
+    ``assembly_offset_kbt`` is a constant standard formation free-energy cost
+    for each cluster of size >=3, not a kinetic activation barrier.
     """
 
     bulk_kbt: float = 8.0
@@ -33,12 +35,15 @@ class GlobularModel:
     packing_kbt: float = 0.18
     dimer_binding_kbt: float = 4.0
     unpaired_penalty_kbt: float = 0.3
+    assembly_offset_kbt: float = 0.0
 
     def __post_init__(self) -> None:
         values = (self.bulk_kbt, self.surface_kbt, self.packing_kbt,
                   self.dimer_binding_kbt, self.unpaired_penalty_kbt)
         if not all(isfinite(x) and x >= 0 for x in values) or self.packing_kbt == 0:
             raise ValueError("coefficients must be finite and nonnegative; packing must be positive")
+        if not isfinite(self.assembly_offset_kbt):
+            raise ValueError("assembly_offset_kbt must be finite")
 
     def free_energies(self, max_size: int = 120) -> np.ndarray:
         """Dimensionless standard formation energies Delta G_n^0/kBT; F_1=0."""
@@ -49,6 +54,7 @@ class GlobularModel:
                   + self.surface_kbt * (sizes ** (2 / 3) - 1)
                   + self.packing_kbt * (sizes ** (5 / 3) - 1))
         energy[(sizes >= 3) & (sizes % 2 == 1)] += self.unpaired_penalty_kbt
+        energy[sizes >= 3] += self.assembly_offset_kbt
         energy[0] = 0.0
         energy[1] = -self.dimer_binding_kbt
         return energy
@@ -162,6 +168,41 @@ def globular_equilibrium(model: GlobularModel, total_concentration: float, *,
         if max_size == size_limit:
             raise ValueError("size range has not converged; increase size_limit")
         max_size = min(2 * max_size, size_limit)
+
+
+def enrich_reservoir(model: GlobularModel, total_concentration: float,
+                     pool_subunit_fraction: float, *,
+                     standard_concentration: float = 1.0) -> tuple[GlobularModel, Equilibrium]:
+    """Choose a larger 1/2-mer pool while preserving P(n | n>=3) at one total.
+
+    This is a constructed thermodynamic scenario, not a fit or a prediction of
+    a measured reservoir fraction. Dimer binding, surface, packing, and parity
+    terms stay fixed. Bulk association and a size-independent formation cost
+    for the n>=3 family change. The new free energies are then fixed when
+    predicting other concentrations; the target is imposed only at this total.
+
+    Let delta be the change in log monomer activity and A the required common
+    scale of larger-species concentrations. Choosing b'=b-delta and offset'
+    =offset+delta-log(A) gives c_n'=A*c_n for every n>=3. The small-species
+    mass balance fixes delta with c_2 proportional to c_1**2.
+    """
+    if not isfinite(pool_subunit_fraction) or not 0 < pool_subunit_fraction < 1:
+        raise ValueError("pool_subunit_fraction must lie strictly between zero and one")
+    reference = globular_equilibrium(model, total_concentration,
+                                     standard_concentration=standard_concentration)
+    previous_pool = float(reference.subunit_fraction[:2].sum())
+    if pool_subunit_fraction <= previous_pool:
+        raise ValueError(f"enrichment target must exceed the original pool fraction {previous_pool:.6g}")
+    small_pool = closed_equilibrium(model.free_energies(2),
+                                    pool_subunit_fraction * total_concentration,
+                                    standard_concentration=standard_concentration)
+    delta = small_pool.log_activity - reference.log_activity
+    log_scale = log(1 - pool_subunit_fraction) - log(1 - previous_pool)
+    adjusted = replace(model, bulk_kbt=model.bulk_kbt - delta,
+                       assembly_offset_kbt=model.assembly_offset_kbt + delta - log_scale)
+    result = globular_equilibrium(adjusted, total_concentration,
+                                  standard_concentration=standard_concentration)
+    return adjusted, result
 
 
 def sample_reservoir(result: Equilibrium, *, standard_state_particles: float = 10000,
