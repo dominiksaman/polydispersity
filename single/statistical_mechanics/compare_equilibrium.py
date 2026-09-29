@@ -50,10 +50,10 @@ def main() -> None:
         ax.plot(sizes, probability, marker="o", markersize=3,
                 linewidth=1.5, label=catalogue.scaffold_name, color=colour)
         print(f"{catalogue.scaffold_name}: {sum(multiplicity.values())} "
-              f"distinct connected topologies; equilibrium mode "
+              f"occupied parent-template patterns; illustrative mode "
               f"{int(sizes[np.argmax(probability)])}-mer")
-    ax_count.set(yscale="log", ylabel="Distinct connected topologies",
-                 title="Equilibrium scaffold model: structural state counts and size weights")
+    ax_count.set(yscale="log", ylabel="Patterns within each parent template",
+                 title="Restricted scaffold model: occupied-template counts and size weights")
     ax_count.legend(frameon=False, ncol=3, fontsize=9)
     ax_poly.bar(sizes, kinetic, width=0.8, color="#b8d9ed", alpha=0.65,
                 label="Kinetic reference, conditional on sizes ≤24")

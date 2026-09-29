@@ -1,10 +1,11 @@
-"""Equilibrium cluster partition functions on finite dimer scaffolds.
+"""Illustrative equilibrium cluster partition functions on finite scaffolds.
 
-This is a genuinely static statistical-mechanical model: every connected
-occupancy pattern is given a Boltzmann weight, and configurations related by
-scaffold symmetry are counted once. No association or dissociation rate
-appears in the partition function. The scaffold is a *template of possible
-contacts*, not a claim that an empty protein shell exists in solution.
+This is a static statistical-mechanical model within one specified parent
+scaffold: each connected occupancy pattern is given a Boltzmann weight, and
+patterns related by that scaffold's symmetry are counted once. These are
+*not* all molecular arrangements at a given size. No association or
+dissociation rate appears in the partition function. The scaffold is a
+template of possible contacts, not a pre-existing empty protein shell.
 
 One may occupy whole dimeric edges, with at most one monomer left unpaired.
 At a vertex with q occupied monomer endpoints, q >= 2, the q monomers are
@@ -44,7 +45,7 @@ class EquilibriumParameters:
 
 @dataclass(frozen=True)
 class StateCatalogue:
-    """Counts of distinct connected topologies grouped by their contacts."""
+    """Symmetry-inequivalent occupied subgraphs of one parent scaffold."""
 
     scaffold_name: str
     max_size: int
@@ -104,7 +105,7 @@ def _monomer_automorphisms(scaffold: Scaffold) -> list[tuple[int, ...]]:
 
 
 def enumerate_states(scaffold: Scaffold) -> StateCatalogue:
-    """Enumerate distinct connected full-dimer or single-defect states.
+    """Enumerate connected full-dimer or single-defect template states.
 
     This is practical for a 24-mer parent (12 dimer edges). The orbit of a
     state under parent-scaffold symmetry is counted once, avoiding artificial

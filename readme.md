@@ -4,9 +4,9 @@ Repo for dealing with polydisperse proteins and their assembly.
 Initially, I will focus on homo-oligomers of small heat-shock proteins, using multiple different approaches: chemical kinetics, thermodynamics, and statistical mechanics.
 
 The `single/statistical_mechanics/` module now includes an independent
-equilibrium scaffold model. It counts connected ring and polyhedral contact
-configurations, assigns Boltzmann weights, and compares the resulting size
-distributions with the existing kinetic model. See
+equilibrium scaffold model. It counts connected contact configurations within
+one chosen ring or polyhedral parent, assigns Boltzmann weights, and compares
+the resulting size distributions with the existing kinetic model. See
 [its README](single/statistical_mechanics/readme.md) for the assumptions,
 equations, and figures.
 

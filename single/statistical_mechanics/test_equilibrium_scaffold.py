@@ -12,7 +12,7 @@ from single.statistical_mechanics.geometry import cube, dimer_ring, octahedron
 
 
 class EquilibriumScaffoldTests(unittest.TestCase):
-    def test_ring_has_one_distinct_connected_state_per_size(self):
+    def test_one_fixed_parent_ring_has_one_pattern_per_size(self):
         catalogue = enumerate_states(dimer_ring(12))
         by_size = Counter()
         for (n, _d, _c, _v), count in catalogue.counts.items():

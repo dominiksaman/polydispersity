@@ -7,20 +7,20 @@ the specific-site thermodynamic interpretation in
 [Baldwin et al., *J. Mol. Biol.* 413 (2011)](https://baldwinlab.chem.ox.ac.uk/publications/2011%20alphaB%201.pdf),
 especially its Eqs. 5–7. The code here does not fit new experimental data.
 
-## Independent equilibrium scaffold model
+## Restricted equilibrium scaffold model
 
 `equilibrium_scaffold.py` now provides a **rate-free** statistical-mechanical
-model. A candidate ring, cube, or octahedron specifies possible dimeric edges
-and C-terminal contacts. We enumerate connected occupied configurations with
-intact dimer units and at most one unpaired monomer. Configurations related
-by scaffold symmetry count as one topology. For each size `n`, the cluster
-partition sum is
+model **within one chosen parent scaffold**. A ring, cube, or octahedron
+specifies possible dimeric edges and C-terminal contacts. We enumerate
+connected occupied configurations with intact dimer units and at most one
+unpaired monomer. Configurations related by that parent's symmetry are counted
+once. For each size `n`, the restricted partition sum is
 
 ```
-Z_n = Σ_{connected topologies s of size n}
+Z_n^(parent) = Σ_{allowed occupied states s of size n in this parent}
       exp[n*log(z) + D_s*epsilon_d + C_s*epsilon_C - V_s*kappa]
-P_n = Z_n / Σ_m Z_m
-F_n = -k_B*T*log(Z_n)
+P_n^(parent) = Z_n^(parent) / Σ_m Z_m^(parent)
+F_n^(parent) = -k_B*T*log(Z_n^(parent))
 ```
 
 Here `z` is monomer activity, `D_s` counts intact dimer contacts, `C_s`
@@ -29,12 +29,13 @@ vertices of degree at least three. The favourable contact strengths
 `epsilon_d` and `epsilon_C`, and the illustrative crowded-vertex penalty
 `kappa`, are dimensionless energies in units of `k_B T`. **No rate or
 kinetic recurrence enters these weights.** The size dependence instead
-comes from the number of distinct structural states and their contact
-energies. In particular, the octahedral template has many more partially
-filled topologies than nearly full ones, whereas a simple 12-dimer ring has
-one connected topology per size under these assumptions.
+comes from the number of allowed occupied states in the chosen parent and
+their contact energies. In particular, the octahedral template has many more
+partially filled patterns than nearly full ones, whereas a **single**
+12-dimer parent ring has one symmetry-inequivalent pattern per size under
+these restricted rules. That is not a count of all possible ring oligomers.
 
-`compare_equilibrium.py` plots those topology counts and a sample equilibrium
+`compare_equilibrium.py` plots those restricted counts and a sample equilibrium
 distribution against the kinetic result, conditioned on sizes `1..24` so the
 supports match. The example parameters (`log(z)=-1`, `epsilon_d=4`,
 `epsilon_C=0.05`, `kappa=1.1`) place the cube and octahedron modes at 18
@@ -53,6 +54,40 @@ value. Only one 24-monomer parent scaffold is considered at a time, so this
 example cannot predict oligomers above 24. A physical comparison needs a
 library of 24-, 26-, 28-, and other plausible scaffolds, their relative
 shape free energies, and concentration-dependent data to constrain `z`.
+
+### Other arrangements at the same size
+
+The [structural study](https://baldwinlab.chem.ox.ac.uk/publications/2011%20alphaB%203.pdf)
+explicitly sketches **seven** candidate 24-mer scaffold families: a single
+12-dimer ring; double 6-dimer rings; triple 4-dimer rings; quadruple
+3-dimer rings; a cube; an octahedron; and a mixed-degree elongated triangular
+pyramid. It proposes an augmented triangular prism for 26 monomers and a
+gyrobifastigium for 28. The current code includes only the single-ring,
+cube, and octahedron parents. The paper's ion-mobility comparison favours
+degree-four polyhedra, but that does not establish zero solution population
+for the other candidates.
+
+Even within one scaffold, there may be alternative dimer pairings, C-terminal
+wirings at a vertex, unpaired-monomer positions, and conformations. The code
+fixes the first two, identifies symmetry-equivalent positions, and omits
+conformational entropy. Its pattern counts therefore **must not be treated as
+the complete physical degeneracy**. Nor can separately normalized curves for
+the three parents be added: many small occupied fragments could represent
+the same molecule and would be counted more than once.
+
+The fuller equilibrium object would be
+
+```
+Z_n = z^n Σ_{architecture a at size n} q_(n,a)
+q_(n,a) = Σ_{distinct conformations c of a} exp[-F_(n,a,c)/(k_B*T)]
+P_n = Z_n / Σ_m Z_m
+```
+
+`q_(n,a)` must include the appropriate symmetry and conformational weights,
+and architectures must be deduplicated across parent templates. This is the
+next model, not a result already computed here. IM-MS collision cross sections
+and other structural restraints can narrow which `a` are plausible before
+their equilibrium weights are fitted.
 
 The rest of this document retains the exact kinetic reformulation and the
 earlier additive-contact examples as checks and contrasts. Their matching
