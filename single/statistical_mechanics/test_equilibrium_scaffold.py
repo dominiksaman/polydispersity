@@ -8,7 +8,9 @@ import numpy as np
 from single.statistical_mechanics.equilibrium_scaffold import (
     EquilibriumParameters, enumerate_states,
 )
-from single.statistical_mechanics.geometry import cube, dimer_ring, octahedron
+from single.statistical_mechanics.geometry import (
+    cube, dimer_ring, octahedron, subdivided_tetrahedron, tetrahedron,
+)
 
 
 class EquilibriumScaffoldTests(unittest.TestCase):
@@ -34,6 +36,19 @@ class EquilibriumScaffoldTests(unittest.TestCase):
         modes = [int(np.argmax(enumerate_states(scaffold).distribution(parameters))) + 1
                  for scaffold in (dimer_ring(12), cube(), octahedron())]
         self.assertEqual(modes, [24, 18, 18])
+
+    def test_tetrahedral_parent_capacities_and_orbits(self):
+        small, doubled = tetrahedron(), subdivided_tetrahedron()
+        self.assertEqual((small.monomers, len(small.edges), small.vertex_degrees),
+                         (12, 6, (3, 3, 3, 3)))
+        self.assertEqual(doubled.monomers, 24)
+        self.assertEqual(doubled.vertex_degrees, (2,) * 6 + (3,) * 4)
+        for scaffold in (small, doubled):
+            catalogue = enumerate_states(scaffold)
+            self.assertEqual(sum(count for (n, *_), count in catalogue.counts.items()
+                                 if n == scaffold.monomers), 1)
+            self.assertAlmostEqual(catalogue.distribution(
+                EquilibriumParameters(0, 0, 0)).sum(), 1.0)
 
 
 if __name__ == "__main__":

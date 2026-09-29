@@ -125,6 +125,38 @@ that succeed across concentrations. Assigning a separate free energy to each
 size could force an exact match, but would only encode the kinetic curve in
 new notation and is not the intended test.
 
+### Why the curves are not exactly symmetric; tetrahedral controls
+
+Neither equilibrium nor the kinetic model requires a symmetric size
+distribution. For the requested `(20,10,1)` kinetic example, the mean size is
+`16.01`, the mode is `16`, and the standardized skewness is `+0.24`: the
+envelope is **approximately** centered but has a longer right tail. The
+different off-rate denominators at even and odd sizes create alternating
+heights. In the scaffold model, the count of *connected* occupied patterns,
+the number of intact dimers, and the monomer activity also change unevenly
+with size. Binomial symmetry would require independent equivalent sites and
+special parameter values; those assumptions do not hold here.
+
+The [structural paper's supplement](https://baldwinlab.chem.ox.ac.uk/publications/2011%20alphaB%203%20supp.pdf)
+includes a **tetrahedron with six dimeric edges**, which is a 12-mer under
+our one-dimer-per-edge rule. At `(20,10,1)`, `77.8%` of the kinetic
+distribution lies above 12, so that tetrahedron alone cannot reproduce it.
+As a controlled 24-monomer comparison, `geometry.py` also constructs an
+**edge-subdivided tetrahedron**, with two dimeric positions along each
+original edge. This latter graph is hypothetical and is not one of the
+paper's identified αB-crystallin architectures.
+
+| Parent | Maximum size | Full-curve total variation after fitting | Fitted mode |
+| --- | ---: | ---: | ---: |
+| Tetrahedron | 12 | 0.778 | 12 |
+| Edge-subdivided tetrahedron | 24 | 0.153 | 16 |
+| Octahedron | 24 | 0.132 | 16 |
+
+The octahedral fitted curve has skewness `+0.17`, closer to the kinetic
+`+0.24` than the subdivided tetrahedron's `−0.65`. Both 24-mer parents
+match the modal size, but neither quantitatively reproduces the distribution.
+Run `compare_tetrahedra.py` for the distributions and restricted state counts.
+
 The rest of this document retains the exact kinetic reformulation and the
 earlier additive-contact examples as checks and contrasts. Their matching
 curves are not an independent equilibrium derivation.
@@ -248,11 +280,12 @@ python -m single.statistical_mechanics.compare_models
 python -m single.statistical_mechanics.compare_geometries
 python -m single.statistical_mechanics.compare_equilibrium
 python -m single.statistical_mechanics.fit_scaffold_to_kinetics
+python -m single.statistical_mechanics.compare_tetrahedra
 ```
 
 The plotting commands save `size_distribution_comparison.png`,
 `geometry_comparison.png`, `equilibrium_scaffold_comparison.png`, and
-`scaffold_kinetic_fit.png` here.
+`scaffold_kinetic_fit.png`, and `tetrahedral_comparison.png` here.
 
 ```python
 from single.statistical_mechanics import energies_from_rates, site_count_distribution

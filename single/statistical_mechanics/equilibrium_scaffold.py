@@ -86,7 +86,16 @@ def _vertex_automorphisms(scaffold: Scaffold) -> list[tuple[int, ...]]:
         return [tuple(2 * perm[v // 2] + ((v % 2) ^ flip[v // 2])
                       for v in vertices)
                 for perm in permutations(range(3)) for flip in product((0, 1), repeat=3)]
-    raise ValueError("symmetry enumeration supports rings, cube, and octahedron")
+    if scaffold.name == "tetrahedron":
+        return [tuple(perm) for perm in permutations(range(4))]
+    if scaffold.name == "subdivided tetrahedron":
+        original_edges = [(a, b) for a in range(4) for b in range(a + 1, 4)]
+        midpoint_by_edge = {frozenset(edge): 4 + index
+                            for index, edge in enumerate(original_edges)}
+        return [tuple(perm) + tuple(midpoint_by_edge[frozenset((perm[a], perm[b]))]
+                                   for a, b in original_edges)
+                for perm in permutations(range(4))]
+    raise ValueError("symmetry enumeration supports rings, cube, octahedron, and tetrahedra")
 
 
 def _monomer_automorphisms(scaffold: Scaffold) -> list[tuple[int, ...]]:

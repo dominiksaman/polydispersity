@@ -93,6 +93,25 @@ def octahedron() -> Scaffold:
                                          if a // 2 != b // 2))
 
 
+def tetrahedron() -> Scaffold:
+    """Four degree-three vertices, six dimeric edges: a 12-mer."""
+    return Scaffold("tetrahedron", tuple((a, b) for a in range(4)
+                                         for b in range(a + 1, 4)))
+
+
+def subdivided_tetrahedron() -> Scaffold:
+    """A 24-mer illustration with two dimers along each tetrahedron edge.
+
+    This is a controlled same-capacity comparison, not an architecture
+    identified in the published alphaB-crystallin structure catalogue.
+    """
+    edges = []
+    for index, (a, b) in enumerate(tetrahedron().edges):
+        midpoint = 4 + index
+        edges.extend(((a, midpoint), (midpoint, b)))
+    return Scaffold("subdivided tetrahedron", tuple(edges))
+
+
 def ring_distribution(per_dimer_free_energy_kj_mol: float, *,
                       temperature: float = 298.15,
                       max_dimers: int = 30) -> tuple[np.ndarray, np.ndarray]:
