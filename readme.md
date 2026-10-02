@@ -4,7 +4,7 @@ Equilibrium models for polydisperse protein assembly and circular A/B co-assembl
 
 | Area | What it calculates |
 | --- | --- |
-| [Single protein](single/readme.md) | The size distribution implied by the modified-helical rate model; a neutral-mass axis conversion |
+| [Single protein](single/readme.md) | Rate-model equilibrium, free-monomer mass balance, and a theoretical concentration-series comparison |
 | [Single-protein statistical mechanics](single/statistical_mechanics/readme.md) | Exact rate reformulation and explicit geometry weights |
 | [Single-protein thermodynamics](single/thermodynamics/readme.md) | Formation free energies, monomer/dimer reservoir, and mass balance |
 | [Combined proteins](combined/statistical_mechanics/readme.md) | Composition distributions and energy fitting for a fixed-size A/B ring |
@@ -25,6 +25,7 @@ python -m single.example
 python -m combined.statistical_mechanics.replicate_counting_model
 python -m single.statistical_mechanics.draw_eleven_geometries
 python -m single.thermodynamics.simulate_reservoir
+python -m single.compare_concentrations
 ```
 
 ## Main figures
@@ -33,6 +34,7 @@ python -m single.thermodynamics.simulate_reservoir
 - [Thesis ring co-assembly figure reconstruction](combined/statistical_mechanics/counting_model_replication.png)
 - [Two possible 11-monomer contact networks](single/statistical_mechanics/eleven_monomer_geometries.png)
 - [Thermodynamic small-species pool and larger oligomers](single/thermodynamics/readme.md)
+- [Theoretical concentration series with fixed parameters](single/readme.md#theoretical-concentration-series)
 
 See the [scientific and software audit](docs/audit.md) for validated results,
 corrections, and remaining assumptions. Earlier exploratory fits and sensitivity

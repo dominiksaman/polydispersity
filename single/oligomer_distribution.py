@@ -66,6 +66,23 @@ from typing import Optional, Tuple
 import numpy as np
 
 
+def _log_relative_weights(log_on: float, k_off_monomer: float,
+                          k_off_dimer: float, max_size: int) -> np.ndarray:
+    """Validated callers supply log(k_plus*c_1); return log(c_n/c_1).
+
+    Keeping the association rate in logs also supports mass-balance solves
+    whose trial concentrations would overflow ordinary relative weights.
+    """
+    sizes = np.arange(2, max_size + 1)
+    log_off = np.where(
+        sizes % 2 == 0,
+        np.log(sizes) + np.log(k_off_dimer),
+        np.logaddexp(np.log(sizes - 1) + np.log(k_off_dimer),
+                     np.log(k_off_monomer)),
+    )
+    return np.concatenate(([0.0], np.cumsum(log_on - log_off)))
+
+
 def oligomer_distribution(
     k_on: float,
     k_off_monomer: float,
@@ -122,21 +139,8 @@ def oligomer_distribution(
 
     # ---- build the distribution by recursion ----------------------------
     sizes = np.arange(1, max_size + 1)
-    log_weights = np.zeros(max_size, dtype=float)
-    log_on = np.log(k_on)
-    log_paired = np.log(k_off_dimer)
-    log_unpaired = np.log(k_off_monomer)
-
-    for i in range(2, max_size + 1):
-        if i % 2 == 0:
-            # even oligomer: every monomer is paired -> dimer off-rate, with a
-            # statistical factor i for the number of equivalent positions.
-            log_off_rate = np.log(i) + log_paired
-        else:
-            # odd oligomer: one spare monomer (k_off_monomer) plus the paired
-            # part (the (i-1) already-paired monomers leave at k_off_dimer).
-            log_off_rate = np.logaddexp(np.log(i - 1) + log_paired, log_unpaired)
-        log_weights[i - 1] = log_weights[i - 2] + log_on - log_off_rate
+    log_weights = _log_relative_weights(np.log(k_on), k_off_monomer,
+                                        k_off_dimer, max_size)
 
     # ---- normalise -------------------------------------------------------
     if normalise:

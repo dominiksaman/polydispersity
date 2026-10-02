@@ -1,5 +1,31 @@
 # Scientific and software audit — 29 September 2026
 
+## Theoretical concentration extension — 2 October 2026
+
+The [concentration comparison](../single/readme.md#theoretical-concentration-series)
+now solves mass balance in both independent equilibrium models. A single
+bimolecular association constant anchors the rate reference to (20,10,1) at
+3 µM. Thermodynamic energies are selected separately, choosing the 20% small
+pool once at the same reference. Both parameter sets remain fixed over
+0.003–30 µM. No experimental data or time trajectories are used.
+
+Six added tests bring the suite to **35 passing tests**. Checks include the
+independent equal-off-rate Lambert-W solution, detailed balance, recovery of
+the original reference, concentration/time-unit conversions, adaptive support,
+large log weights, and use of the same parameters throughout the series.
+Maximum plotted-series relative mass-balance error is 3.58e-13. The new summary
+figure was regenerated and visually inspected.
+
+Matching the conditional 16-mer mode at 3 µM still does not match the reservoirs:
+the rate model has 0.0021% of subunits in sizes 1/2, versus the chosen 20% in
+thermodynamics. At 30 µM the conditional means are 18.606 and 19.516, respectively,
+and their number tails above 24 are 10.716% and 16.277%. The larger-family
+formation offset and dimer energy give the thermodynamic model freedom absent
+from the original recurrence. Establishing their physical origin remains open.
+The statistical-mechanics and thermodynamic packages remain separate. The
+comparison lives at the single-protein root and reads the thermodynamic solver
+and the rate-equilibrium solver; statistical-mechanics weights stay independent.
+
 ## Subsequent thermodynamic extension
 
 The [reservoir model](../single/thermodynamics/readme.md) adds

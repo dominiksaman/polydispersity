@@ -172,7 +172,19 @@ concentration-dependent pooling, reservoir count statistics, and preservation of
 the larger-species shape when enriching the small pool. Run the full
 suite with `python -m unittest discover -v`.
 
-A useful next test is a concentration series with measured small-species and
-oligomer abundances under an explicit MS response model. Geometry-specific
-partition functions can replace the phenomenological F_n once their relative
-free energies and conformer weights are available.
+## Theoretical comparison across concentration
+
+Run `python -m single.compare_concentrations` for the
+[fixed-parameter comparison](../readme.md#theoretical-concentration-series)
+over 0.003–30 µM. The thermodynamic pool is adjusted only at 3 µM and the
+formation energies are then held fixed. Independently, the rate reference
+solves free-monomer mass balance with a fixed bimolecular association constant.
+No experimental data are used. The thermodynamic solver does not import the
+statistical-mechanics model or the rate solver; the comparison lives one
+folder above it.
+
+The next theoretical step is to examine how the reservoir, peak, width, and
+concentration response depend on dimer energy and the surface/packing costs.
+Geometry-specific partition functions could eventually replace the
+phenomenological F_n once justified relative energies and conformer weights
+are available.
